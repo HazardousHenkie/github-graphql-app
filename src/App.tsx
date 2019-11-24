@@ -1,26 +1,46 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import { compose } from 'recompose'
+
+import { Router } from 'react-router-dom'
+import Routes from './routes/routes'
+import history from './helpers/history'
+
+import Container from '@material-ui/core/Container'
+import CssBaseline from '@material-ui/core/CssBaseline'
+
+import { createMuiTheme, responsiveFontSizes } from '@material-ui/core/styles'
+import { ThemeProvider } from '@material-ui/styles'
+
+import { WithAuthentication } from './components/authentication'
+import { withSnackbar } from './components/snackbar'
+
+let theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: '#343434'
+    }
+  }
+})
+
+theme = responsiveFontSizes(theme)
 
 const App: React.FC = () => {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <CssBaseline />
+      <Router history={history}>
+        <div className="content">
+          <ThemeProvider theme={theme}>
+            <Container fixed>
+              <Routes />
+            </Container>
+          </ThemeProvider>
+        </div>
+      </Router>
     </div>
-  );
+  )
 }
-
-export default App;
+export default compose(
+  withSnackbar,
+  WithAuthentication
+)(App)
