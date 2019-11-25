@@ -11,13 +11,32 @@ import { PersistGate } from 'redux-persist/integration/react'
 
 import Firebase, { FirebaseContext } from './components/firebase'
 
+import { ApolloProvider } from 'react-apollo'
+import { ApolloClient } from 'apollo-client'
+import { createHttpLink } from 'apollo-link-http'
+import { InMemoryCache } from 'apollo-cache-inmemory'
+
+const httpLink = createHttpLink({
+  uri: 'https://api.github.com/graphql',
+  headers: {
+    authorization: `Bearer ${process.env.REACT_APP_GITHUB_PERSONAL_ACCESS_TOKEN}`
+  }
+})
+
+const client = new ApolloClient({
+  link: httpLink,
+  cache: new InMemoryCache()
+})
+
 ReactDOM.render(
   <Provider store={store}>
-    <PersistGate loading={null} persistor={persistor}>
-      <FirebaseContext.Provider value={new Firebase()}>
-        <App />
-      </FirebaseContext.Provider>
-    </PersistGate>
+    <ApolloProvider client={client}>
+      <PersistGate loading={null} persistor={persistor}>
+        <FirebaseContext.Provider value={new Firebase()}>
+          <App />
+        </FirebaseContext.Provider>
+      </PersistGate>
+    </ApolloProvider>
   </Provider>,
   document.getElementById('root')
 )
