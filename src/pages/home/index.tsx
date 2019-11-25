@@ -7,8 +7,7 @@ import { makeStyles } from '@material-ui/core/styles'
 
 import { useSelector } from 'react-redux'
 
-import SignInGoogle from '../../components/login/signInGoogle'
-import SignInEmail from '../../components/login/signInEmail'
+import SignInGoogle from '../../components/login/signInGithub'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -40,7 +39,6 @@ const Home: React.FC = () => {
           {!loggedIn && (
             <div className="home__signup_forms">
               <Paper className={`${classes.root} center-content`}>
-                <SignInEmail />
                 <SignInGoogle />
               </Paper>
             </div>
