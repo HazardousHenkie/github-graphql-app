@@ -29,7 +29,7 @@ interface ReduxProvider {
   loggedIn: boolean
 }
 
-const LogOut: React.FC = () => {
+const SignOut: React.FC = () => {
   const authenticated = useSelector(
     (state: Record<string, ReduxProvider>) => state.user.loggedIn
   )
@@ -51,7 +51,7 @@ const LogOut: React.FC = () => {
               component="h3"
               className={classes.titleSub}
             >
-              Are you sure you want to logout?
+              Are you sure you want to sign out?
             </Typography>
 
             {authenticated && <SignOutButton />}
@@ -65,4 +65,4 @@ const LogOut: React.FC = () => {
 export default compose(
   React.memo,
   WithAuthorization
-)(LogOut)
+)(SignOut)

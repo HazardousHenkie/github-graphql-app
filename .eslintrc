@@ -21,14 +21,7 @@
     "jest": true
   },
   "rules": {
-    // "max-len": ["error", { "code": 100 }],
-    // "prefer-promise-reject-errors": ["off"],
-    // "react/jsx-filename-extension": ["off"],
     "react/prop-types": ["off"],
-    // "no-return-assign": ["off"],
     "import/prefer-default-export": ["off"]
-    // "react/display-name": ["off"]
-    // "@typescript-eslint/explicit-function-return-type": ["off"]
-    // "react/jsx-props-no-spreading": ["off"]
   }
 }
