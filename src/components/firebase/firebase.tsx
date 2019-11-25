@@ -25,13 +25,11 @@ const config = process.env.NODE_ENV === 'production' ? prodConfig : devConfig
 class Firebase {
   app: firebase.app.App
   auth: firebase.auth.Auth
-  db: firebase.database.Database
   googleProvider: firebase.auth.GoogleAuthProvider
 
   constructor() {
     this.app = firebase.initializeApp(config)
     this.auth = firebase.auth()
-    this.db = firebase.database()
 
     this.googleProvider = new firebase.auth.GoogleAuthProvider()
   }
