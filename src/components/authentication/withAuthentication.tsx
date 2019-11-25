@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import AuthUserContext from './context'
-import { addUser } from '../../redux/actions'
+import { setUser } from '../../redux/actions'
 
 import { withFirebase, FirebaseProviderProps } from '../firebase'
+
+import useSnackbarContext from '../snackbar/context'
 
 interface ReduxProvider {
   userId: string
@@ -17,30 +19,39 @@ const withAuthentication = <Props extends object>(
     const { firebase } = props
     const dispatch = useDispatch()
     const [authenticated, setAuthenticated] = useState(false)
-    const { userId, loggedIn } = useSelector(
+    const { loggedIn } = useSelector(
       (state: Record<string, ReduxProvider>) => state.user
     )
+    const { setSnackbarState } = useSnackbarContext()
 
     useEffect(() => {
       const listener = firebase.auth.onAuthStateChanged(authUser => {
         if (authUser) {
           if (!loggedIn) {
             dispatch(
-              addUser({
-                loggedIn: true,
-                userName: authUser.displayName ? authUser.displayName : '',
-                userId: authUser.uid
+              setUser({
+                loggedIn: false,
+                userName: '',
+                userId: '',
+                authToken: null
               })
             )
-          }
 
-          setAuthenticated(true)
+            setAuthenticated(false)
+            setSnackbarState({
+              message: 'Please login again!',
+              variant: 'error'
+            })
+          } else {
+            setAuthenticated(true)
+          }
         } else {
           dispatch(
-            addUser({
+            setUser({
               loggedIn: false,
               userName: '',
-              userId: ''
+              userId: '',
+              authToken: null
             })
           )
 
@@ -51,7 +62,7 @@ const withAuthentication = <Props extends object>(
       return (): void => {
         listener()
       }
-    }, [setAuthenticated, firebase, dispatch, loggedIn, userId])
+    }, [setAuthenticated, firebase, dispatch, loggedIn, setSnackbarState])
     return (
       <AuthUserContext.Provider value={authenticated}>
         <Component {...(props as Props)} />

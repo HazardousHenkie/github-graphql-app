@@ -7,7 +7,10 @@ import { makeStyles } from '@material-ui/core/styles'
 
 import { useSelector } from 'react-redux'
 
-import SignInGoogle from '../../components/login/signInGithub'
+import SignInGithub from '../../components/login/signInGithub'
+
+import gql from 'graphql-tag'
+import { Query } from 'react-apollo'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -18,12 +21,26 @@ const useStyles = makeStyles(theme => ({
 interface ReduxProvider {
   userName: string
   loggedIn: boolean
+  // fix any and below
+  // authToken: any
 }
 
 const Home: React.FC = () => {
+  //authToken
   const { userName, loggedIn } = useSelector(
     (state: Record<string, ReduxProvider>) => state.user
   )
+
+  // console.log(authToken.oauthAccessToken)
+
+  // const GET_CURRENT_USER = gql`
+  //   {
+  //     viewer {
+  //       login
+  //       name
+  //     }
+  //   }
+  // `
 
   const classes = useStyles()
 
@@ -39,10 +56,21 @@ const Home: React.FC = () => {
           {!loggedIn && (
             <div className="home__signup_forms">
               <Paper className={`${classes.root} center-content`}>
-                <SignInGoogle />
+                <SignInGithub />
               </Paper>
             </div>
           )}
+
+          {/* <Query query={GET_CURRENT_USER}>
+            {({ data }: any) => {
+              const { viewer } = data
+              return (
+                <div>
+                  {viewer.name} {viewer.login}
+                </div>
+              )
+            }}
+          </Query> */}
         </div>
       </Grid>
     </Grid>

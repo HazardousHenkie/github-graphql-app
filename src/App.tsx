@@ -40,7 +40,4 @@ const App: React.FC = () => {
     </div>
   )
 }
-export default compose(
-  withSnackbar,
-  WithAuthentication
-)(App)
+export default compose(withSnackbar, WithAuthentication)(App)

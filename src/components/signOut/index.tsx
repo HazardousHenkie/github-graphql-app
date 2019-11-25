@@ -5,7 +5,7 @@ import Button from '@material-ui/core/Button'
 import { makeStyles } from '@material-ui/core/styles'
 import { withFirebase, FirebaseProviderProps } from '../firebase'
 
-import { addUser } from '../../redux/actions'
+import { setUser } from '../../redux/actions'
 
 import * as routes from '../../constants/routes'
 import history from '../../helpers/history'
@@ -30,7 +30,14 @@ export const SignOutButton: React.FC<FirebaseProviderProps> = ({
 
     firebase.doSignOut().then(
       () => {
-        dispatch(addUser({ loggedIn: false, userName: '', userId: '' }))
+        dispatch(
+          setUser({
+            loggedIn: false,
+            userName: '',
+            userId: '',
+            authToken: null
+          })
+        )
         setSnackbarState({ message: 'Logged out', variant: 'error' })
         history.push(routes.home)
       },

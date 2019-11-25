@@ -33,7 +33,7 @@ const SignOut: React.FC = () => {
   const authenticated = useSelector(
     (state: Record<string, ReduxProvider>) => state.user.loggedIn
   )
-
+  console.log('sign outs')
   const classes = useStyles()
 
   return (
@@ -62,7 +62,4 @@ const SignOut: React.FC = () => {
   )
 }
 
-export default compose(
-  React.memo,
-  WithAuthorization
-)(SignOut)
+export default compose(React.memo, WithAuthorization)(SignOut)

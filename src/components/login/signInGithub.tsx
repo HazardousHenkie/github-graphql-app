@@ -5,7 +5,7 @@ import Button from '@material-ui/core/Button'
 import Group from '@material-ui/icons/Group'
 import { makeStyles } from '@material-ui/core/styles'
 import * as routes from '../../constants/routes'
-import { addUser } from '../../redux/actions'
+import { setUser } from '../../redux/actions'
 
 import history from '../../helpers/history'
 import { withFirebase, FirebaseProviderProps } from '../firebase'
@@ -20,7 +20,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const SignInGoogle: React.FC<FirebaseProviderProps> = ({ firebase }) => {
+const SignInGithub: React.FC<FirebaseProviderProps> = ({ firebase }) => {
   const classes = useStyles()
   const { setSnackbarState } = useSnackbarContext()
   const dispatch = useDispatch()
@@ -30,35 +30,22 @@ const SignInGoogle: React.FC<FirebaseProviderProps> = ({ firebase }) => {
     event.preventDefault()
 
     firebase
-      .doSignInWithGoogle()
+      .doSignInWithGithub()
       .then(signInResult => {
-        if (
-          signInResult.user &&
-          signInResult.additionalUserInfo &&
-          signInResult.additionalUserInfo.isNewUser
-        ) {
-          dispatch(
-            addUser({
-              loggedIn: true,
-              userName: signInResult.user.displayName
-                ? signInResult.user.displayName
+        console.log(signInResult)
+
+        dispatch(
+          setUser({
+            loggedIn: true,
+            userName:
+              signInResult.additionalUserInfo &&
+              signInResult.additionalUserInfo.username
+                ? signInResult.additionalUserInfo.username
                 : '',
-              userId: signInResult.user.uid
-            })
-          )
-        } else {
-          if (signInResult.user) {
-            dispatch(
-              addUser({
-                loggedIn: true,
-                userName: signInResult.user.displayName
-                  ? signInResult.user.displayName
-                  : '',
-                userId: signInResult.user ? signInResult.user.uid : ''
-              })
-            )
-          }
-        }
+            userId: signInResult.user ? signInResult.user.uid : '',
+            authToken: signInResult.credential
+          })
+        )
 
         setSnackbarState({ message: 'Logged in!', variant: 'success' })
         history.push(routes.home)
@@ -71,10 +58,7 @@ const SignInGoogle: React.FC<FirebaseProviderProps> = ({ firebase }) => {
   }
 
   return (
-    <div className="signin_google">
-      <p className="signin_google__text">
-        or alternatively Sign In with Google!
-      </p>
+    <div className="signin_github">
       <form onSubmit={onSubmit}>
         <Button
           type="submit"
@@ -83,11 +67,11 @@ const SignInGoogle: React.FC<FirebaseProviderProps> = ({ firebase }) => {
           className={classes.button}
         >
           <Group className={classes.leftIcon} />
-          Sign In with Google
+          Sign In with Github
         </Button>
       </form>
     </div>
   )
 }
 
-export default withFirebase(SignInGoogle)
+export default withFirebase(SignInGithub)
