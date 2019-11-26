@@ -32,8 +32,6 @@ const SignInGithub: React.FC<FirebaseProviderProps> = ({ firebase }) => {
     firebase
       .doSignInWithGithub()
       .then(signInResult => {
-        console.log(signInResult)
-
         dispatch(
           setUser({
             loggedIn: true,

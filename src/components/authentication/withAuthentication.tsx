@@ -8,7 +8,6 @@ import { withFirebase, FirebaseProviderProps } from '../firebase'
 import useSnackbarContext from '../snackbar/context'
 
 interface ReduxProvider {
-  userId: string
   loggedIn: boolean
 }
 
