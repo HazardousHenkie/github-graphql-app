@@ -1,14 +1,15 @@
 import React from 'react'
 
+import { useSelector } from 'react-redux'
+
+import { Redirect } from 'react-router-dom'
+
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 import Paper from '@material-ui/core/Paper'
 import { makeStyles } from '@material-ui/core/styles'
 
-import { useSelector } from 'react-redux'
-
 import SignInGithub from '../../components/login/signInGithub'
-import Profile from '../../components/profile'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -17,16 +18,18 @@ const useStyles = makeStyles(theme => ({
 }))
 
 interface ReduxProvider {
-  userName: string
   loggedIn: boolean
 }
 
 const Home: React.FC = () => {
-  const { userName, loggedIn } = useSelector(
-    (state: Record<string, ReduxProvider>) => state.user
+  const classes = useStyles()
+  const authenticated = useSelector(
+    (state: Record<string, ReduxProvider>) => state.user.loggedIn
   )
 
-  const classes = useStyles()
+  if (authenticated) {
+    return <Redirect to="/profile/" />
+  }
 
   return (
     <Grid container spacing={2}>
@@ -34,18 +37,15 @@ const Home: React.FC = () => {
         <div className="home">
           <header className="home__header">
             <Typography variant="h5" component="h2">
-              {!loggedIn ? 'Welcome!' : `Welcome back, ${userName}!`}
+              Login
             </Typography>
           </header>
-          {!loggedIn && (
-            <div className="home__signup_forms">
-              <Paper className={`${classes.root} center-content`}>
-                <SignInGithub />
-              </Paper>
-            </div>
-          )}
 
-          {loggedIn && <Profile />}
+          <div className="home__signup_forms">
+            <Paper className={`${classes.root} center-content`}>
+              <SignInGithub />
+            </Paper>
+          </div>
         </div>
       </Grid>
     </Grid>

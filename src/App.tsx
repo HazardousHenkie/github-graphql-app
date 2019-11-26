@@ -43,6 +43,8 @@ const App: React.FC = () => {
   const authorizationHeader =
     authToken && authToken.oauthAccessToken
       ? `Bearer ${authToken.oauthAccessToken}`
+      : authToken && authToken.accessToken
+      ? `Bearer ${authToken.accessToken}`
       : null
 
   const httpLink = createHttpLink({

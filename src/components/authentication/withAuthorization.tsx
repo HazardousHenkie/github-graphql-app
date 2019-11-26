@@ -5,7 +5,6 @@ import AuthUserContext from './context'
 import { withFirebase, FirebaseProviderProps } from '../firebase'
 
 import history from '../../helpers/history'
-
 import * as routes from '../../constants/routes'
 
 const withAuthorization = <Props extends object>(
@@ -28,6 +27,11 @@ const withAuthorization = <Props extends object>(
         unsubscribe()
       }
     }, [firebase])
+
+    // if (authenticated) {
+    //   history.push(routes.profile)
+    // }
+
     return (
       <AuthUserContext.Consumer>
         {(authenticated): React.ReactNode =>

@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react'
+
 import { useSelector, useDispatch } from 'react-redux'
-import AuthUserContext from './context'
 import { setUser } from '../../redux/actions'
 
 import { withFirebase, FirebaseProviderProps } from '../firebase'
+
+import AuthUserContext from './context'
 
 import useSnackbarContext from '../snackbar/context'
 
@@ -21,6 +23,7 @@ const withAuthentication = <Props extends object>(
     const { loggedIn } = useSelector(
       (state: Record<string, ReduxProvider>) => state.user
     )
+
     const { setSnackbarState } = useSnackbarContext()
 
     useEffect(() => {
