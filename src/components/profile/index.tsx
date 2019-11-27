@@ -1,5 +1,9 @@
 import React from 'react'
 
+import './profile.scss'
+
+import Loading from '../loading'
+
 import gql from 'graphql-tag'
 import { Query } from 'react-apollo'
 
@@ -8,7 +12,11 @@ const Profile: React.FC = () => {
     {
       viewer {
         login
-        name
+        websiteUrl
+        location
+        email
+        company
+        bio
       }
     }
   `
@@ -18,11 +26,17 @@ const Profile: React.FC = () => {
       <Query query={GET_CURRENT_USER}>
         {({ data, loading }: Record<string, any>) => {
           if (loading || !data) {
-            return <div>Loading ...</div>
+            return <Loading />
           }
 
           const { viewer } = data
-          return <div>{viewer.login}</div>
+          return (
+            <div>
+              name: {viewer.login}, location: {viewer.location}, email
+              {viewer.email}, company: {viewer.company}, website:
+              {viewer.websiteUrl} bio: {viewer.bio}
+            </div>
+          )
         }}
       </Query>
     </div>
