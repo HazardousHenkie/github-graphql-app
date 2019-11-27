@@ -28,10 +28,6 @@ const withAuthorization = <Props extends object>(
       }
     }, [firebase])
 
-    // if (authenticated) {
-    //   history.push(routes.profile)
-    // }
-
     return (
       <AuthUserContext.Consumer>
         {(authenticated): React.ReactNode =>

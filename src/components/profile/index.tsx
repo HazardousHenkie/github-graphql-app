@@ -7,6 +7,10 @@ import Loading from '../loading'
 import gql from 'graphql-tag'
 import { Query } from 'react-apollo'
 
+import Email from '@material-ui/icons/Email'
+import ExitToApp from '@material-ui/icons/ExitToApp'
+import Business from '@material-ui/icons/Business'
+
 const Profile: React.FC = () => {
   const GET_CURRENT_USER = gql`
     {
@@ -31,11 +35,38 @@ const Profile: React.FC = () => {
 
           const { viewer } = data
           return (
-            <div>
-              name: {viewer.login}, location: {viewer.location}, email
-              {viewer.email}, company: {viewer.company}, website:
-              {viewer.websiteUrl} bio: {viewer.bio}
-            </div>
+            <React.Fragment>
+              <h1 className="profile__title">Hello, {viewer.login}!</h1>
+              {viewer.bio && (
+                <p className="profile__description">{viewer.bio}</p>
+              )}
+              <ul className="profile__icon_list">
+                {viewer.email && (
+                  <li className="profile__list_item">
+                    <span className="profile__icon">
+                      <Email />
+                    </span>
+                    {viewer.email}
+                  </li>
+                )}
+                {viewer.company && (
+                  <li className="profile__list_item">
+                    <span className="profile__icon">
+                      <Business />
+                    </span>
+                    {viewer.company}
+                  </li>
+                )}
+                {viewer.websiteUrl && (
+                  <li className="profile__list_item">
+                    <span className="profile__icon">
+                      <ExitToApp />
+                    </span>
+                    {viewer.websiteUrl}
+                  </li>
+                )}
+              </ul>
+            </React.Fragment>
           )
         }}
       </Query>
