@@ -11,6 +11,8 @@ import Email from '@material-ui/icons/Email'
 import ExitToApp from '@material-ui/icons/ExitToApp'
 import Business from '@material-ui/icons/Business'
 
+import Background from '../background'
+
 const Profile: React.FC = () => {
   const GET_CURRENT_USER = gql`
     {
@@ -27,6 +29,7 @@ const Profile: React.FC = () => {
 
   return (
     <div className="profile">
+      <Background />
       <Query query={GET_CURRENT_USER}>
         {({ data, loading }: Record<string, any>) => {
           if (loading || !data) {
