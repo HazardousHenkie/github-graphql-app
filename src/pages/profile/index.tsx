@@ -28,7 +28,6 @@ const ProfilePage: React.FC = () => {
               id
               name
               url
-              descriptionHTML
             }
           }
         }
