@@ -4,8 +4,8 @@ interface RepositoriesProps {
   name: string
   url: string
 }
-// check how to desctructor ask or just do it seperately
-const RepositoryItem: React.FC = ({ name, url }) => {
+
+const RepositoryItem: React.FC<RepositoriesProps> = (name, url) => {
   return (
     <div className="repository_item">
       {name} {url}

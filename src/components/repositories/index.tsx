@@ -11,7 +11,7 @@ const Repositories: React.FC<RepositoriesProps> = ({ repositories }) => {
       {repositories.edges.map(
         ({ node }: Record<string, Record<string, string>>) => (
           <div key={node.id} className="RepositoryItem">
-            <RepositoryItem {...node} />
+            <RepositoryItem name={node.name} url={node.url} />
           </div>
         )
       )}
