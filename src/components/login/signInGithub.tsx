@@ -46,12 +46,12 @@ const SignInGithub: React.FC<FirebaseProviderProps> = ({ firebase }) => {
         )
 
         setSnackbarState({ message: 'Logged in!', variant: 'success' })
-        history.push(routes.profile)
+        history.push(routes.login)
       })
       .catch(error => {
         const { message } = error
         setSnackbarState({ message, variant: 'error' })
-        history.push(routes.home)
+        history.push(routes.login)
       })
   }
 

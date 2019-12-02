@@ -17,10 +17,10 @@ const withAuthorization = <Props extends object>(
       const unsubscribe = firebase.auth.onAuthStateChanged(
         authUser => {
           if (!authUser) {
-            history.push(routes.home)
+            history.push(routes.login)
           }
         },
-        () => history.push(routes.home)
+        () => history.push(routes.login)
       )
 
       return (): void => {

@@ -64,13 +64,11 @@ const App: React.FC = () => {
       <div className="App">
         <CssBaseline />
         <Router history={history}>
-          <div className="content">
-            <ThemeProvider theme={theme}>
-              <Container fixed>
-                <Routes />
-              </Container>
-            </ThemeProvider>
-          </div>
+          <ThemeProvider theme={theme}>
+            <Container fixed>
+              <Routes />
+            </Container>
+          </ThemeProvider>
         </Router>
       </div>
     </ApolloProvider>

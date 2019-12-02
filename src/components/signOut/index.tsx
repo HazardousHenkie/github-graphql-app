@@ -39,7 +39,7 @@ export const SignOutButton: React.FC<FirebaseProviderProps> = ({
           })
         )
         setSnackbarState({ message: 'Logged out', variant: 'error' })
-        history.push(routes.home)
+        history.push(routes.login)
       },
       error => {
         setSnackbarState({ message: 'Sign Out Error', variant: 'error' })
