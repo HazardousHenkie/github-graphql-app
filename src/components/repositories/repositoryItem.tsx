@@ -15,23 +15,34 @@ const useStyles = makeStyles({
 })
 
 interface RepositoriesProps {
+  ownerLogin: string
+  ownerUrl: string
+  description: string
+  primaryLanguage: string
+  stargazers: number
+  watchers: number
   name: string
   url: string
 }
 
-const RepositoryItem: React.FC<RepositoriesProps> = ({ name, url }) => {
+const RepositoryItem: React.FC<RepositoriesProps> = ({
+  name,
+  url,
+  ownerLogin,
+  ownerUrl,
+  description,
+  primaryLanguage,
+  stargazers,
+  watchers
+}) => {
   const classes = useStyles()
 
   return (
     <Card className={classes.card}>
       <CardContent>
-        <Typography
-          className={classes.title}
-          color="textSecondary"
-          gutterBottom
-        >
-          {name}
-        </Typography>
+        <Typography className={classes.title}>{name}</Typography>
+        {stargazers} {watchers} {primaryLanguage} {description} {ownerLogin}{' '}
+        {ownerUrl}
         <Typography variant="body2" component="p">
           {url}
         </Typography>

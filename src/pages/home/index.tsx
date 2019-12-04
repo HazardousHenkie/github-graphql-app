@@ -9,11 +9,7 @@ import { WithAuthorization } from '../../components/authentication'
 import gql from 'graphql-tag'
 import { Query } from 'react-apollo'
 
-import useSnackbarContext from '../../components/snackbar/context'
-
 const Home: React.FC = () => {
-  const { setSnackbarState } = useSnackbarContext()
-
   const getCurrentUserData = gql`
     {
       viewer {
@@ -32,6 +28,20 @@ const Home: React.FC = () => {
               id
               name
               url
+              description
+              primaryLanguage {
+                name
+              }
+              owner {
+                login
+                url
+              }
+              stargazers {
+                totalCount
+              }
+              watchers {
+                totalCount
+              }
             }
           }
         }

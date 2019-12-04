@@ -8,15 +8,13 @@ import Business from '@material-ui/icons/Business'
 
 import Background from '../background'
 
-import Grid from '@material-ui/core/Grid'
-
 export type ProfileProps = {
   user: Record<string, string>
 }
 
 const Profile: React.FC<ProfileProps> = ({ user }) => {
   return (
-    <Grid className="profile" container justify="center" spacing={2}>
+    <div className="profile">
       <Background />
 
       <React.Fragment>
@@ -49,7 +47,7 @@ const Profile: React.FC<ProfileProps> = ({ user }) => {
           )}
         </ul>
       </React.Fragment>
-    </Grid>
+    </div>
   )
 }
 
