@@ -1,6 +1,8 @@
 import React from 'react'
 import RepositoryItem from './repositoryItem'
 
+import './repositories.scss'
+
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 
@@ -24,9 +26,15 @@ interface RepositoriesProps {
 
 const Repositories: React.FC<RepositoriesProps> = ({ repositories }) => {
   return (
-    <Grid className="repositories" container justify="center" spacing={2}>
+    <Grid
+      className="repositories"
+      container
+      alignItems="stretch"
+      justify="center"
+      spacing={2}
+    >
       <Grid item xs={12}>
-        <Typography variant="h3" component="h2">
+        <Typography className="repositories__title" variant="h3" component="h2">
           Repositories
         </Typography>
       </Grid>

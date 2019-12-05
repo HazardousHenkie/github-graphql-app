@@ -1,11 +1,13 @@
 import React from 'react'
 
-import { makeStyles } from '@material-ui/core/styles'
+import './resporityItem.scss'
+
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
-import CloudUploadIcon from '@material-ui/icons/CloudUpload'
+import StarIcon from '@material-ui/icons/Star'
+import VisibilityIcon from '@material-ui/icons/Visibility'
 
 interface RepositoriesProps {
   ownerLogin: string
@@ -29,27 +31,54 @@ const RepositoryItem: React.FC<RepositoriesProps> = ({
   watchers
 }) => {
   return (
-    <Card>
+    <Card className="repository_card">
       <CardContent>
-        <Typography>{name}</Typography>
-        <Button
-          variant="contained"
-          color="default"
-          startIcon={<CloudUploadIcon />}
+        <Typography
+          className="repository_card__title"
+          variant="h5"
+          component="h3"
         >
-          Watchers {watchers}
-        </Button>
-        <Button
-          variant="contained"
-          color="default"
-          startIcon={<CloudUploadIcon />}
-        >
-          Stars {stargazers}
-        </Button>
-        {primaryLanguage} {description} {ownerLogin} {ownerUrl}
-        <Typography variant="body2" component="p">
-          {url}
+          {name}
         </Typography>
+
+        <Typography variant="body2" component="p">
+          {description}
+        </Typography>
+
+        <div className="repository_card__buttons">
+          <Button
+            className="repository_card__button"
+            variant="contained"
+            color="secondary"
+            startIcon={<VisibilityIcon />}
+          >
+            Watchers {watchers}
+          </Button>
+          <Button
+            className="repository_card__button"
+            variant="contained"
+            color="secondary"
+            startIcon={<StarIcon />}
+          >
+            Stars {stargazers}
+          </Button>
+        </div>
+
+        <ul className="repository_card__list">
+          <li>Language: {primaryLanguage}</li>
+          <li>
+            Owner:
+            <a className="repository_card__link" href={ownerUrl}>
+              {ownerLogin}
+            </a>
+          </li>
+        </ul>
+
+        <div className="repository_card__buttons">
+          <Button variant="contained" color="primary" href={url}>
+            Check on github
+          </Button>
+        </div>
       </CardContent>
     </Card>
   )
