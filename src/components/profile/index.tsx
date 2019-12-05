@@ -8,7 +8,7 @@ import Business from '@material-ui/icons/Business'
 
 import Background from '../background'
 
-export type ProfileProps = {
+export interface ProfileProps {
   user: Record<string, string>
 }
 

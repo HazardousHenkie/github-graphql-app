@@ -4,15 +4,8 @@ import { makeStyles } from '@material-ui/core/styles'
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
 import Typography from '@material-ui/core/Typography'
-
-const useStyles = makeStyles({
-  card: {
-    width: '100%'
-  },
-  title: {
-    fontSize: 14
-  }
-})
+import Button from '@material-ui/core/Button'
+import CloudUploadIcon from '@material-ui/icons/CloudUpload'
 
 interface RepositoriesProps {
   ownerLogin: string
@@ -35,14 +28,25 @@ const RepositoryItem: React.FC<RepositoriesProps> = ({
   stargazers,
   watchers
 }) => {
-  const classes = useStyles()
-
   return (
-    <Card className={classes.card}>
+    <Card>
       <CardContent>
-        <Typography className={classes.title}>{name}</Typography>
-        {stargazers} {watchers} {primaryLanguage} {description} {ownerLogin}{' '}
-        {ownerUrl}
+        <Typography>{name}</Typography>
+        <Button
+          variant="contained"
+          color="default"
+          startIcon={<CloudUploadIcon />}
+        >
+          Watchers {watchers}
+        </Button>
+        <Button
+          variant="contained"
+          color="default"
+          startIcon={<CloudUploadIcon />}
+        >
+          Stars {stargazers}
+        </Button>
+        {primaryLanguage} {description} {ownerLogin} {ownerUrl}
         <Typography variant="body2" component="p">
           {url}
         </Typography>

@@ -52,12 +52,12 @@ const Home: React.FC = () => {
   return (
     <Query query={getCurrentUserData}>
       {({ data, loading, error }: Record<string, any>) => {
-        // if (error) {
-        //   return setSnackbarState({
-        //     message: error,
-        //     variant: 'error'
-        //   })
-        // }
+        if (error) {
+          //   return setSnackbarState({
+          //     message: error,
+          //     variant: 'error'
+          //   })
+        }
 
         if (loading || !data) {
           return <Loading />

@@ -4,8 +4,22 @@ import RepositoryItem from './repositoryItem'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 
-export type RepositoriesProps = {
-  repositories: Record<string, any>
+interface RepositoriesProps {
+  repositories: {
+    edges: [
+      {
+        id: any
+        owner: Record<string, string>
+        ownerUrl: string
+        description: string
+        primaryLanguage: Record<string, string>
+        stargazers: Record<string, number>
+        watchers: Record<string, number>
+        name: string
+        url: string
+      }
+    ]
+  }
 }
 
 const Repositories: React.FC<RepositoriesProps> = ({ repositories }) => {
@@ -16,24 +30,20 @@ const Repositories: React.FC<RepositoriesProps> = ({ repositories }) => {
           Repositories
         </Typography>
       </Grid>
-      {repositories.edges.map(
-        // any or object
-        ({ node }: Record<string, Record<string, any>>) => (
-          <Grid item xs={12} sm={6} md={4} key={node.id}>
-            check if there is a better way to push data to it
-            <RepositoryItem
-              ownerLogin={node.owner.login}
-              ownerUrl={node.owner.url}
-              description={node.description}
-              primaryLanguage={node.primaryLanguage.name}
-              stargazers={node.stargazers.totalCount}
-              watchers={node.watchers.totalCount}
-              name={node.name}
-              url={node.url}
-            />
-          </Grid>
-        )
-      )}
+      {repositories.edges.map(({ node }: any) => (
+        <Grid item xs={12} sm={6} md={4} key={node.id}>
+          <RepositoryItem
+            ownerLogin={node.owner.login}
+            ownerUrl={node.owner.url}
+            description={node.description}
+            primaryLanguage={node.primaryLanguage.name}
+            stargazers={node.stargazers.totalCount}
+            watchers={node.watchers.totalCount}
+            name={node.name}
+            url={node.url}
+          />
+        </Grid>
+      ))}
     </Grid>
   )
 }
