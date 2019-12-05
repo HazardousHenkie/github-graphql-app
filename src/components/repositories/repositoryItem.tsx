@@ -1,0 +1,87 @@
+import React from 'react'
+
+import './resporityItem.scss'
+
+import Card from '@material-ui/core/Card'
+import CardContent from '@material-ui/core/CardContent'
+import Typography from '@material-ui/core/Typography'
+import Button from '@material-ui/core/Button'
+import StarIcon from '@material-ui/icons/Star'
+import VisibilityIcon from '@material-ui/icons/Visibility'
+
+interface RepositoriesProps {
+  ownerLogin: string
+  ownerUrl: string
+  description: string
+  primaryLanguage: string
+  stargazers: number
+  watchers: number
+  name: string
+  url: string
+}
+
+const RepositoryItem: React.FC<RepositoriesProps> = ({
+  name,
+  url,
+  ownerLogin,
+  ownerUrl,
+  description,
+  primaryLanguage,
+  stargazers,
+  watchers
+}) => {
+  return (
+    <Card className="repository_card">
+      <CardContent>
+        <Typography
+          className="repository_card__title"
+          variant="h5"
+          component="h3"
+        >
+          {name}
+        </Typography>
+
+        <Typography variant="body2" component="p">
+          {description}
+        </Typography>
+
+        <div className="repository_card__buttons">
+          <Button
+            className="repository_card__button"
+            variant="contained"
+            color="secondary"
+            startIcon={<VisibilityIcon />}
+          >
+            Watchers {watchers}
+          </Button>
+          <Button
+            className="repository_card__button"
+            variant="contained"
+            color="secondary"
+            startIcon={<StarIcon />}
+          >
+            Stars {stargazers}
+          </Button>
+        </div>
+
+        <ul className="repository_card__list">
+          <li>Language: {primaryLanguage}</li>
+          <li>
+            Owner:
+            <a className="repository_card__link" href={ownerUrl}>
+              {ownerLogin}
+            </a>
+          </li>
+        </ul>
+
+        <div className="repository_card__buttons">
+          <Button variant="contained" color="primary" href={url}>
+            Check on github
+          </Button>
+        </div>
+      </CardContent>
+    </Card>
+  )
+}
+
+export default React.memo(RepositoryItem)

@@ -25,21 +25,24 @@ const config = process.env.NODE_ENV === 'production' ? prodConfig : devConfig
 class Firebase {
   app: firebase.app.App
   auth: firebase.auth.Auth
-  googleProvider: firebase.auth.GoogleAuthProvider
+  githubProvider: firebase.auth.GithubAuthProvider
 
   constructor() {
     this.app = firebase.initializeApp(config)
     this.auth = firebase.auth()
 
-    this.googleProvider = new firebase.auth.GoogleAuthProvider()
+    this.githubProvider = new firebase.auth.GithubAuthProvider()
+    this.githubProvider.addScope('repo user admin:org notifications')
   }
 
-  doSignInWithGoogle = (): Promise<firebase.auth.UserCredential> =>
-    this.auth.signInWithPopup(this.googleProvider)
+  doSignInWithGithub = (): Promise<firebase.auth.UserCredential> =>
+    this.auth.signInWithPopup(this.githubProvider)
 
   doSignOut = (): Promise<void> => this.auth.signOut()
 
   firebase = (): firebase.app.App => this.app
+
+  baseAuth = (): firebase.auth.Auth => this.auth
 }
 
 export default Firebase

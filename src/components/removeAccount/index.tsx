@@ -12,7 +12,7 @@ import IconButton from '@material-ui/core/IconButton'
 import CloseIcon from '@material-ui/icons/Close'
 import Typography from '@material-ui/core/Typography'
 import moment from 'moment'
-import { addUser } from '../../redux/actions'
+import { setUser } from '../../redux/actions'
 import { withFirebase, FirebaseProviderProps } from '../firebase'
 import useSnackbarContext from '../snackbar/context'
 
@@ -41,10 +41,6 @@ const DialogActions = withStyles(theme => ({
     padding: theme.spacing(1)
   }
 }))(MuiDialogActions)
-
-interface ReduxProvider {
-  userId: string
-}
 
 export const CustomizedDialogs: React.FC<FirebaseProviderProps> = ({
   firebase
@@ -83,7 +79,14 @@ export const CustomizedDialogs: React.FC<FirebaseProviderProps> = ({
         firebase.auth.currentUser
           .delete()
           .then(() => {
-            dispatch(addUser({ loggedIn: false, userName: '', userId: '' }))
+            dispatch(
+              setUser({
+                loggedIn: false,
+                userName: '',
+                userId: '',
+                authToken: null
+              })
+            )
             setSnackbarState({
               message: 'Account was deleted!',
               variant: 'error'

@@ -1,52 +1,89 @@
 import React from 'react'
+import { compose } from 'recompose'
 
-import Grid from '@material-ui/core/Grid'
-import Typography from '@material-ui/core/Typography'
-import Paper from '@material-ui/core/Paper'
-import { makeStyles } from '@material-ui/core/styles'
+import Profile from '../../components/profile'
+import Loading from '../../components/loading'
+import Repositories from '../../components/repositories'
+import { WithAuthorization } from '../../components/authentication'
 
-import { useSelector } from 'react-redux'
-
-import SignInGoogle from '../../components/login/signInGithub'
-
-const useStyles = makeStyles(theme => ({
-  root: {
-    padding: theme.spacing(3, 2)
-  }
-}))
-
-interface ReduxProvider {
-  userName: string
-  loggedIn: boolean
-}
+import gql from 'graphql-tag'
+import { Query } from 'react-apollo'
 
 const Home: React.FC = () => {
-  const { userName, loggedIn } = useSelector(
-    (state: Record<string, ReduxProvider>) => state.user
-  )
-
-  const classes = useStyles()
+  const getCurrentUserData = gql`
+    {
+      viewer {
+        login
+        websiteUrl
+        location
+        email
+        company
+        bio
+        repositories(
+          first: 5
+          orderBy: { direction: DESC, field: CREATED_AT }
+        ) {
+          edges {
+            node {
+              id
+              name
+              url
+              description
+              primaryLanguage {
+                name
+              }
+              owner {
+                login
+                url
+              }
+              stargazers {
+                totalCount
+              }
+              watchers {
+                totalCount
+              }
+            }
+          }
+        }
+      }
+    }
+  `
 
   return (
-    <Grid container spacing={2}>
-      <Grid item xs={12} sm={7} md={5}>
-        <div className="home">
-          <header className="home__header">
-            <Typography variant="h5" component="h2">
-              {!loggedIn ? 'Welcome!' : `Welcome back, ${userName}!`}
-            </Typography>
-          </header>
-          {!loggedIn && (
-            <div className="home__signup_forms">
-              <Paper className={`${classes.root} center-content`}>
-                <SignInGoogle />
-              </Paper>
-            </div>
-          )}
-        </div>
-      </Grid>
-    </Grid>
+    <Query query={getCurrentUserData}>
+      {({ data, loading, error }: Record<string, any>) => {
+        if (error) {
+          //   return setSnackbarState({
+          //     message: error,
+          //     variant: 'error'
+          //   })
+        }
+
+        if (loading || !data) {
+          return <Loading />
+        }
+
+        const { viewer } = data
+
+        const information = {
+          login: viewer.login,
+          websiteUrl: viewer.websiteUrl,
+          location: viewer.location,
+          email: viewer.email,
+          company: viewer.company,
+          bio: viewer.bio
+        }
+
+        return (
+          <React.Fragment>
+            <Profile user={information} />
+
+            <Repositories repositories={viewer.repositories} />
+          </React.Fragment>
+        )
+      }}
+    </Query>
   )
 }
 
-export default React.memo(Home)
+export default compose(React.memo, WithAuthorization)(Home)

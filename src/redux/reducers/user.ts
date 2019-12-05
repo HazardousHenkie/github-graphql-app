@@ -1,11 +1,10 @@
-import { ADD_USER, UPDATE_USER } from '../actionTypes'
+import { SET_USER } from '../actionTypes'
 
 const initialState = {
   loggedIn: false,
   userName: '',
   userId: '',
-  userDescription: '',
-  countries: []
+  authToken: {}
 }
 
 interface ActionInterface {
@@ -14,8 +13,7 @@ interface ActionInterface {
     loggedIn: boolean
     userName: string
     userId: string
-    userDescription: string
-    countries: never[]
+    authToken: object
   }
 }
 
@@ -23,8 +21,7 @@ interface PayloadExport {
   loggedIn: boolean
   userName: string
   userId: string
-  userDescription: string
-  countries: never[]
+  authToken: object
 }
 
 export default (
@@ -32,22 +29,12 @@ export default (
   action: ActionInterface
 ): PayloadExport => {
   switch (action.type) {
-    case ADD_USER: {
+    case SET_USER: {
       return {
         loggedIn: action.payload.loggedIn,
         userName: action.payload.userName,
         userId: action.payload.userId,
-        userDescription: action.payload.userDescription,
-        countries: action.payload.countries
-      }
-    }
-    case UPDATE_USER: {
-      return {
-        loggedIn: state.loggedIn,
-        userName: action.payload.userName,
-        userId: state.userId,
-        userDescription: action.payload.userDescription,
-        countries: action.payload.countries
+        authToken: action.payload.authToken
       }
     }
     default:

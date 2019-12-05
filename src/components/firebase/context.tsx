@@ -3,7 +3,7 @@ import Firebase from './firebase'
 
 const FirebaseContext = React.createContext({})
 
-export type FirebaseProviderProp = {
+export interface FirebaseProviderProp {
   firebase: Firebase
 }
 
@@ -16,7 +16,7 @@ export const FirebaseProvider: React.FC<FirebaseProviderProp> = ({
   </FirebaseContext.Provider>
 )
 
-type WithFirebaseProps = {
+interface WithFirebaseProps {
   firebase: Firebase
 }
 
