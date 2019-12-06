@@ -19,6 +19,7 @@ interface RepositoriesProps {
         watchers: Record<string, number>
         name: string
         url: string
+        viewerHasStarred: boolean
       }
     ]
   }
@@ -41,6 +42,7 @@ const Repositories: React.FC<RepositoriesProps> = ({ repositories }) => {
       {repositories.edges.map(({ node }: any) => (
         <Grid item xs={12} sm={6} md={4} key={node.id}>
           <RepositoryItem
+            id={node.id}
             ownerLogin={node.owner.login}
             ownerUrl={node.owner.url}
             description={node.description}
@@ -49,6 +51,7 @@ const Repositories: React.FC<RepositoriesProps> = ({ repositories }) => {
             watchers={node.watchers.totalCount}
             name={node.name}
             url={node.url}
+            viewerHasStarred={node.viewerHasStarred}
           />
         </Grid>
       ))}

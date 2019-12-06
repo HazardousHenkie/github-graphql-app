@@ -44,6 +44,7 @@ const Home: React.FC = () => {
               watchers {
                 totalCount
               }
+              viewerHasStarred
             }
           }
         }
