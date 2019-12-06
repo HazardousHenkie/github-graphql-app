@@ -6,6 +6,8 @@ import Loading from '../../components/loading'
 import Repositories from '../../components/repositories'
 import { WithAuthorization } from '../../components/authentication'
 
+import ErrorMessage from '../../components/errorMessage'
+
 import gql from 'graphql-tag'
 import { Query } from 'react-apollo'
 
@@ -53,10 +55,7 @@ const Home: React.FC = () => {
     <Query query={getCurrentUserData}>
       {({ data, loading, error }: Record<string, any>) => {
         if (error) {
-          //   return setSnackbarState({
-          //     message: error,
-          //     variant: 'error'
-          //   })
+          return <ErrorMessage errorMessage={error} />
         }
 
         if (loading || !data) {
