@@ -4,6 +4,7 @@ import { compose } from 'recompose'
 import Profile from '../../components/profile'
 import Loading from '../../components/loading'
 import Repositories from '../../components/repositories'
+import repositoryFragment from '../../components/repositories/fragments'
 import { WithAuthorization } from '../../components/authentication'
 
 import ErrorMessage from '../../components/errorMessage'
@@ -23,29 +24,14 @@ const getCurrentUserData = gql`
       repositories(first: 5, orderBy: { direction: DESC, field: CREATED_AT }) {
         edges {
           node {
-            id
-            name
-            url
-            description
-            primaryLanguage {
-              name
-            }
-            owner {
-              login
-              url
-            }
-            stargazers {
-              totalCount
-            }
-            watchers {
-              totalCount
-            }
-            viewerHasStarred
+            ...repository
           }
         }
       }
     }
   }
+
+  ${repositoryFragment}
 `
 
 const Home: React.FC = () => {

@@ -4,6 +4,7 @@ import './resporityItem.scss'
 
 import { useMutation } from '@apollo/react-hooks'
 import { starRepository, unstarRepository } from './mutations'
+import repositoryFragment from './fragments'
 
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
@@ -37,7 +38,7 @@ const RepositoryItem: React.FC<RepositoriesProps> = ({
   watchers,
   viewerHasStarred
 }) => {
-  const [addStar] = useMutation(starRepository, { variables: { id } })
+  const [addStar] = useMutation(starRepository)
   const [removeStar] = useMutation(unstarRepository, { variables: { id } })
 
   return (
@@ -69,7 +70,49 @@ const RepositoryItem: React.FC<RepositoriesProps> = ({
               className="repository_card__button"
               variant="contained"
               color="secondary"
-              onClick={() => addStar()}
+              onClick={() =>
+                addStar({
+                  variables: { id },
+                  optimisticResponse: {
+                    __typename: 'Mutation',
+                    addStar: {
+                      __typename: 'Repository',
+                      id,
+                      viewerHasStarred: !viewerHasStarred
+                    }
+                  },
+                  update: (
+                    proxy,
+                    {
+                      data: {
+                        addStar: {
+                          starrable: { id, viewerHasStarred }
+                        }
+                      }
+                    }
+                  ) => {
+                    const data: any = proxy.readFragment({
+                      id: `Repository:${id}`,
+                      fragment: repositoryFragment
+                    })
+
+                    if (data) {
+                      let { totalCount } = data.stargazers
+                      totalCount = viewerHasStarred
+                        ? totalCount + 1
+                        : totalCount - 1
+                      proxy.writeFragment({
+                        id: `Repository:${id}`,
+                        fragment: repositoryFragment,
+                        data: {
+                          ...data,
+                          stargazers: { ...data.stargazers, totalCount }
+                        }
+                      })
+                    }
+                  }
+                })
+              }
               startIcon={<StarIcon />}
             >
               Stars {stargazers}
@@ -79,7 +122,7 @@ const RepositoryItem: React.FC<RepositoriesProps> = ({
               className="repository_card__button"
               variant="contained"
               color="primary"
-              onClick={() => removeStar}
+              onClick={() => removeStar()}
               startIcon={<StarIcon />}
             >
               Stars {stargazers}
