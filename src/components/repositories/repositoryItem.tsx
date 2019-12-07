@@ -2,8 +2,7 @@ import React from 'react'
 
 import './resporityItem.scss'
 
-import { Mutation } from 'react-apollo'
-
+import { useMutation } from '@apollo/react-hooks'
 import { starRepository, unstarRepository } from './mutations'
 
 import Card from '@material-ui/core/Card'
@@ -38,6 +37,9 @@ const RepositoryItem: React.FC<RepositoriesProps> = ({
   watchers,
   viewerHasStarred
 }) => {
+  const [addStar] = useMutation(starRepository, { variables: { id } })
+  const [removeStar] = useMutation(unstarRepository, { variables: { id } })
+
   return (
     <Card className="repository_card">
       <CardContent>
@@ -63,33 +65,25 @@ const RepositoryItem: React.FC<RepositoriesProps> = ({
             Watchers {watchers}
           </Button>
           {!viewerHasStarred ? (
-            <Mutation mutation={starRepository} variables={{ id }}>
-              {(addStar: any): JSX.Element => (
-                <Button
-                  className="repository_card__button"
-                  variant="contained"
-                  color="secondary"
-                  onClick={addStar}
-                  startIcon={<StarIcon />}
-                >
-                  Stars {stargazers}
-                </Button>
-              )}
-            </Mutation>
+            <Button
+              className="repository_card__button"
+              variant="contained"
+              color="secondary"
+              onClick={() => addStar()}
+              startIcon={<StarIcon />}
+            >
+              Stars {stargazers}
+            </Button>
           ) : (
-            <Mutation mutation={unstarRepository} variables={{ id }}>
-              {(removeStar: any): JSX.Element => (
-                <Button
-                  className="repository_card__button"
-                  variant="contained"
-                  color="primary"
-                  onClick={removeStar}
-                  startIcon={<StarIcon />}
-                >
-                  Stars {stargazers}
-                </Button>
-              )}
-            </Mutation>
+            <Button
+              className="repository_card__button"
+              variant="contained"
+              color="primary"
+              onClick={() => removeStar}
+              startIcon={<StarIcon />}
+            >
+              Stars {stargazers}
+            </Button>
           )}
         </div>
 
