@@ -13,13 +13,15 @@ import getCurrentUserData from '../../queries/user'
 import { useQuery } from '@apollo/react-hooks'
 
 const Home: React.FC = () => {
-  const { loading, error, data } = useQuery(getCurrentUserData)
+  const { loading, error, data, fetchMore } = useQuery(getCurrentUserData, {
+    notifyOnNetworkStatusChange: true
+  })
 
   if (error) {
     return <ErrorMessage errorMessage={error.toString()} />
   }
 
-  if (loading || !data) {
+  if (loading && !data) {
     return <Loading />
   }
 
@@ -38,7 +40,11 @@ const Home: React.FC = () => {
     <React.Fragment>
       <Profile user={information} />
 
-      <Repositories repositories={viewer.repositories} />
+      <Repositories
+        loading={loading}
+        fetchMore={fetchMore}
+        repositories={viewer.repositories}
+      />
     </React.Fragment>
   )
 }

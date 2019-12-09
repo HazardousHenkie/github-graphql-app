@@ -6,7 +6,10 @@ import './scss/repositories.scss'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 
+import FetchMore from '../../components/fetchMore'
+
 interface RepositoriesProps {
+  loading: boolean
   repositories: {
     edges: [
       {
@@ -22,10 +25,43 @@ interface RepositoriesProps {
         viewerHasStarred: boolean
       }
     ]
+    pageInfo: {
+      endCursor: string
+      hasNextPage: boolean
+    }
   }
+  fetchMore: any
 }
 
-const Repositories: React.FC<RepositoriesProps> = ({ repositories }) => {
+const Repositories: React.FC<RepositoriesProps> = ({
+  loading,
+  repositories,
+  fetchMore
+}) => {
+  const updateQuery = (
+    previousResult: Record<string, any>,
+    { fetchMoreResult }: Record<string, any>
+  ) => {
+    if (!fetchMoreResult) {
+      return previousResult
+    }
+
+    return {
+      ...previousResult,
+      viewer: {
+        ...previousResult.viewer,
+        repositories: {
+          ...previousResult.viewer.repositories,
+          ...fetchMoreResult.viewer.repositories,
+          edges: [
+            ...previousResult.viewer.repositories.edges,
+            ...fetchMoreResult.viewer.repositories.edges
+          ]
+        }
+      }
+    }
+  }
+
   return (
     <Grid
       className="repositories"
@@ -39,7 +75,7 @@ const Repositories: React.FC<RepositoriesProps> = ({ repositories }) => {
           Repositories
         </Typography>
       </Grid>
-      {repositories.edges.map(({ node }: any) => (
+      {repositories.edges.map(({ node }: Record<string, any>) => (
         <Grid item xs={12} sm={6} md={4} key={node.id}>
           <RepositoryItem
             id={node.id}
@@ -56,6 +92,20 @@ const Repositories: React.FC<RepositoriesProps> = ({ repositories }) => {
           />
         </Grid>
       ))}
+
+      <Grid item>
+        <FetchMore
+          loading={loading}
+          hasNextPage={repositories.pageInfo.hasNextPage}
+          variables={{
+            cursor: repositories.pageInfo.endCursor
+          }}
+          updateQuery={updateQuery}
+          fetchMore={fetchMore}
+        >
+          Repositories
+        </FetchMore>
+      </Grid>
     </Grid>
   )
 }
