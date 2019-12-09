@@ -1,7 +1,7 @@
 import React from 'react'
 import RepositoryItem from './repositoryItem'
 
-import './repositories.scss'
+import './scss/repositories.scss'
 
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
@@ -52,6 +52,7 @@ const Repositories: React.FC<RepositoriesProps> = ({ repositories }) => {
             name={node.name}
             url={node.url}
             viewerHasStarred={node.viewerHasStarred}
+            viewerSubscription={node.viewerSubscription}
           />
         </Grid>
       ))}

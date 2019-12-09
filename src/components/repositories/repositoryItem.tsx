@@ -1,10 +1,14 @@
 import React from 'react'
 
-import './resporityItem.scss'
+import './scss/resporityItem.scss'
 
 import { useMutation } from '@apollo/react-hooks'
-import { starRepository, unstarRepository } from './mutations'
-import repositoryFragment from './fragments'
+import {
+  starRepository,
+  unstarRepository,
+  watchRepository
+} from './graphql/mutations'
+import repositoryFragment from './graphql/fragments'
 import { DataProxy } from 'apollo-cache'
 
 import Card from '@material-ui/core/Card'
@@ -25,6 +29,7 @@ interface RepositoriesProps {
   name: string
   url: string
   viewerHasStarred: boolean
+  viewerSubscription: string
 }
 
 const RepositoryItem: React.FC<RepositoriesProps> = ({
@@ -37,13 +42,12 @@ const RepositoryItem: React.FC<RepositoriesProps> = ({
   primaryLanguage,
   stargazers,
   watchers,
-  viewerHasStarred
+  viewerHasStarred,
+  viewerSubscription
 }) => {
   const [addStar] = useMutation(starRepository)
-  const [removeStar] = useMutation(unstarRepository, { variables: { id } })
-
-  // lees wieruch ding nog eens ff door
-  // mss deze functions in apart bestand voor schoonheid
+  const [removeStar] = useMutation(unstarRepository)
+  const [updateSubscription] = useMutation(watchRepository)
 
   const getUpdatedStarData = (
     proxy: DataProxy,
@@ -67,29 +71,83 @@ const RepositoryItem: React.FC<RepositoriesProps> = ({
     })
   }
 
+  const viewerSubscriptions = {
+    subscribed: 'SUBSCRIBED',
+    unsubscribed: 'UNSUBSCRIBED'
+  }
+  const isWatch = (viewerSubscription: string): boolean =>
+    viewerSubscription === viewerSubscriptions.subscribed
+
+  const watchRepositoryWrapper = () =>
+    updateSubscription({
+      variables: {
+        id,
+        viewerSubscription: isWatch(viewerSubscription)
+          ? viewerSubscriptions.unsubscribed
+          : viewerSubscriptions.subscribed
+      },
+      optimisticResponse: {
+        updateSubscription: {
+          __typename: 'Mutation',
+          subscribable: {
+            __typename: 'Repository',
+            id,
+            viewerSubscription: isWatch(viewerSubscription)
+              ? viewerSubscriptions.unsubscribed
+              : viewerSubscriptions.subscribed
+          }
+        }
+      },
+      update: (
+        proxy,
+        {
+          data: {
+            updateSubscription: {
+              subscribable: { id, viewerSubscription }
+            }
+          }
+        }
+      ) => {
+        const data: any = proxy.readFragment({
+          id: `Repository:${id}`,
+          fragment: repositoryFragment
+        })
+
+        let { totalCount } = data.watchers
+        totalCount =
+          viewerSubscription === viewerSubscriptions.subscribed
+            ? totalCount + 1
+            : totalCount - 1
+
+        proxy.writeFragment({
+          id: `Repository:${id}`,
+          fragment: repositoryFragment,
+          data: {
+            ...data,
+            watchers: { ...data.watchers, totalCount }
+          }
+        })
+      }
+    })
+
   const addStarWrapper = () =>
     addStar({
       variables: { id },
       optimisticResponse: {
         addStar: {
           __typename: 'Mutation',
-          // check how this works more deeply but probably its getting the paramaters inside strarable (like the query)
           starrable: {
             __typename: 'Repository',
             id,
             viewerHasStarred: !viewerHasStarred
-
-            // can we put the whole thing here ? i think so
           }
         }
       },
-      //i think since it's deep it need this update to tell us what to update or to prevent a full update//put this funciton in a seperate one outside of this one
       update: (
         proxy,
         {
           data: {
             addStar: {
-              //same here get the data as mentioned above
               starrable: { id, viewerHasStarred }
             }
           }
@@ -134,18 +192,15 @@ const RepositoryItem: React.FC<RepositoriesProps> = ({
           {name}
         </Typography>
 
-        <Typography variant="body2" component="p">
-          {description}
-        </Typography>
-
         <div className="repository_card__buttons">
           <Button
             className="repository_card__button"
             variant="contained"
-            color="secondary"
+            color={isWatch(viewerSubscription) ? 'primary' : 'secondary'}
             startIcon={<VisibilityIcon />}
+            onClick={() => watchRepositoryWrapper()}
           >
-            Watchers {watchers}
+            {isWatch(viewerSubscription) ? 'Unwatch' : 'Watch'} {watchers}
           </Button>
 
           {!viewerHasStarred ? (
@@ -156,7 +211,7 @@ const RepositoryItem: React.FC<RepositoriesProps> = ({
               onClick={() => addStarWrapper()}
               startIcon={<StarIcon />}
             >
-              Stars {stargazers}
+              Star {stargazers}
             </Button>
           ) : (
             <Button
@@ -166,10 +221,14 @@ const RepositoryItem: React.FC<RepositoriesProps> = ({
               onClick={() => removeStarWrapper()}
               startIcon={<StarIcon />}
             >
-              Stars {stargazers}
+              Unstar {stargazers}
             </Button>
           )}
         </div>
+
+        <Typography variant="body2" component="p">
+          {description}
+        </Typography>
 
         <ul className="repository_card__list">
           <li>Language: {primaryLanguage}</li>

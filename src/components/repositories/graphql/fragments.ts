@@ -20,6 +20,7 @@ const repositoryFragment = gql`
       totalCount
     }
     viewerHasStarred
+    viewerSubscription
   }
 `
 export default repositoryFragment

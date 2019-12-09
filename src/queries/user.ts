@@ -1,5 +1,5 @@
 import gql from 'graphql-tag'
-import repositoryFragment from '../components/repositories/fragments'
+import repositoryFragment from '../components/repositories/graphql/fragments'
 
 const getCurrentUserData = gql`
   {
@@ -10,7 +10,7 @@ const getCurrentUserData = gql`
       email
       company
       bio
-      repositories(first: 5, orderBy: { direction: DESC, field: CREATED_AT }) {
+      repositories(first: 6, orderBy: { direction: DESC, field: CREATED_AT }) {
         edges {
           node {
             ...repository
