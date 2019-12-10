@@ -231,7 +231,7 @@ const RepositoryItem: React.FC<RepositoriesProps> = ({
         </Typography>
 
         <ul className="repository_card__list">
-          <li>Language: {primaryLanguage}</li>
+          {primaryLanguage !== '' && <li>Language: {primaryLanguage}</li>}
           <li>
             Owner:
             <a className="repository_card__link" href={ownerUrl}>

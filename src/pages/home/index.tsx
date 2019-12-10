@@ -21,7 +21,7 @@ const Home: React.FC = () => {
     return <ErrorMessage errorMessage={error.toString()} />
   }
 
-  if (loading && !data) {
+  if (!data || (loading && !data)) {
     return <Loading />
   }
 
@@ -44,6 +44,7 @@ const Home: React.FC = () => {
         loading={loading}
         fetchMore={fetchMore}
         repositories={viewer.repositories}
+        entry={'viewer'}
       />
     </React.Fragment>
   )

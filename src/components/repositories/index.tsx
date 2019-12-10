@@ -31,14 +31,17 @@ interface RepositoriesProps {
     }
   }
   fetchMore: any
+  entry: string
 }
 
 const Repositories: React.FC<RepositoriesProps> = ({
   loading,
   repositories,
-  fetchMore
+  fetchMore,
+  entry
 }) => {
-  const updateQuery = (
+  //　maybe don't have => entry here but have it inside there with previousresult
+  const updateQuery = (entry: string) => (
     previousResult: Record<string, any>,
     { fetchMoreResult }: Record<string, any>
   ) => {
@@ -48,14 +51,14 @@ const Repositories: React.FC<RepositoriesProps> = ({
 
     return {
       ...previousResult,
-      viewer: {
-        ...previousResult.viewer,
+      [entry]: {
+        ...previousResult[entry],
         repositories: {
-          ...previousResult.viewer.repositories,
-          ...fetchMoreResult.viewer.repositories,
+          ...previousResult[entry].repositories,
+          ...fetchMoreResult[entry].repositories,
           edges: [
-            ...previousResult.viewer.repositories.edges,
-            ...fetchMoreResult.viewer.repositories.edges
+            ...previousResult[entry].repositories.edges,
+            ...fetchMoreResult[entry].repositories.edges
           ]
         }
       }
@@ -82,7 +85,9 @@ const Repositories: React.FC<RepositoriesProps> = ({
             ownerLogin={node.owner.login}
             ownerUrl={node.owner.url}
             description={node.description}
-            primaryLanguage={node.primaryLanguage.name}
+            primaryLanguage={
+              node.primaryLanguage !== null ? node.primaryLanguage.name : ''
+            }
             stargazers={node.stargazers.totalCount}
             watchers={node.watchers.totalCount}
             name={node.name}
@@ -100,7 +105,7 @@ const Repositories: React.FC<RepositoriesProps> = ({
           variables={{
             cursor: repositories.pageInfo.endCursor
           }}
-          updateQuery={updateQuery}
+          updateQuery={updateQuery(entry)}
           fetchMore={fetchMore}
         >
           Repositories
