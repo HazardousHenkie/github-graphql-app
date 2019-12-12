@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { compose } from 'recompose'
 
+import Search from '../../components/search'
 import Loading from '../../components/loading'
 import Repositories from '../../components/repositories'
 
@@ -12,6 +13,8 @@ import getRepositoriesForOrganization from '../../queries/organization'
 import { useQuery } from '@apollo/react-hooks'
 
 const Organization: React.FC = () => {
+  const [search, setSearch] = useState([])
+
   const organizationName = 'thepracticaldev'
 
   // ignore for now fix later
@@ -42,7 +45,9 @@ const Organization: React.FC = () => {
   const { organization } = data
 
   return (
+    //   add message about the organizations you can search for
     <React.Fragment>
+      <Search setSearch={setSearch} />
       <Repositories
         loading={loading}
         fetchMore={fetchMore}

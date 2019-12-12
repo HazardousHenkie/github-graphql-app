@@ -10,4 +10,4 @@ const Loading: React.FC = () => {
   )
 }
 
-export default Loading
+export default React.memo(Loading)

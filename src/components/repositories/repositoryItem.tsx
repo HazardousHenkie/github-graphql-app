@@ -192,6 +192,7 @@ const RepositoryItem: React.FC<RepositoriesProps> = ({
           {name}
         </Typography>
 
+        {/* put buttons on the bottom of card */}
         <div className="repository_card__buttons">
           <Button
             className="repository_card__button"
