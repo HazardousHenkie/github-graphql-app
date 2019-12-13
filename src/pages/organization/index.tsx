@@ -4,6 +4,7 @@ import { compose } from 'recompose'
 import Search from '../../components/search'
 import Loading from '../../components/loading'
 import Repositories from '../../components/repositories'
+import InfoMessage from '../../components/infoMessage'
 
 import { WithAuthorization } from '../../components/authentication'
 
@@ -13,12 +14,8 @@ import getRepositoriesForOrganization from '../../queries/organization'
 import { useQuery } from '@apollo/react-hooks'
 
 const Organization: React.FC = () => {
-  const [search, setSearch] = useState([])
+  const [organizationName, setSearch] = useState('')
 
-  const organizationName = 'thepracticaldev'
-
-  // ignore for now fix later
-  // @ts-ignore
   const noOrganization = organizationName === ''
 
   const { loading, error, data, fetchMore } = useQuery(
@@ -30,30 +27,28 @@ const Organization: React.FC = () => {
     }
   )
 
-  if (noOrganization) {
-    return <ErrorMessage errorMessage="No organization filled in." />
-  }
-
-  if (error) {
-    return <ErrorMessage errorMessage={error.toString()} />
-  }
-
-  if (loading && !data) {
-    return <Loading />
-  }
-
-  const { organization } = data
-
   return (
-    //   add message about the organizations you can search for
     <React.Fragment>
+      <InfoMessage infoMessage="Only OAuth Apps you authorized in your Github account can be searched for." />
+
       <Search setSearch={setSearch} />
-      <Repositories
-        loading={loading}
-        fetchMore={fetchMore}
-        repositories={organization.repositories}
-        entry={'organization'}
-      />
+
+      {noOrganization && (
+        <ErrorMessage errorMessage="No organization filled in." />
+      )}
+
+      {error && <ErrorMessage errorMessage={error.toString()} />}
+
+      {loading && !data && <Loading />}
+
+      {!loading && !error && data && !noOrganization && (
+        <Repositories
+          loading={loading}
+          fetchMore={fetchMore}
+          repositories={data.organization.repositories}
+          entry={'organization'}
+        />
+      )}
     </React.Fragment>
   )
 }

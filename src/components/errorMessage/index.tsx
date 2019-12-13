@@ -10,4 +10,4 @@ const ErrorMessage: React.FC<ErrorProps> = ({ errorMessage }) => {
   return <div className="error_message">{errorMessage}</div>
 }
 
-export default ErrorMessage
+export default React.memo(ErrorMessage)

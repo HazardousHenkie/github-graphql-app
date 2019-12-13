@@ -1,5 +1,7 @@
 import React from 'react'
 
+import { makeStyles } from '@material-ui/core/styles'
+
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 
@@ -10,11 +12,23 @@ const SearchScheme = Yup.object().shape({
   searchfield: Yup.string().required('Required')
 })
 
+const useStyles = makeStyles(theme => ({
+  textField: {
+    width: 'calc(100% - 100px)'
+  },
+  button: {
+    height: '55px',
+    margin: ' 16px 0 0 7px'
+  }
+}))
+
 interface SearchProps {
   setSearch: any
 }
 
 const Search: React.FC<SearchProps> = ({ setSearch }) => {
+  const classes = useStyles()
+
   return (
     <div className="search">
       <Formik
@@ -41,6 +55,7 @@ const Search: React.FC<SearchProps> = ({ setSearch }) => {
             <TextField
               label="searchfield"
               name="searchfield"
+              className={classes.textField}
               value={values.searchfield}
               onChange={handleChange}
               onBlur={handleBlur}
@@ -56,6 +71,7 @@ const Search: React.FC<SearchProps> = ({ setSearch }) => {
               type="submit"
               variant="contained"
               color="secondary"
+              className={classes.button}
               disabled={isSubmitting || !isValid}
             >
               Search
