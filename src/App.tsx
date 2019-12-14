@@ -13,6 +13,7 @@ import { createMuiTheme, responsiveFontSizes } from '@material-ui/core/styles'
 import { ThemeProvider } from '@material-ui/styles'
 
 import { WithAuthentication } from './components/authentication'
+import MainMenu from './components/mainMenu'
 
 import { ApolloProvider } from 'react-apollo'
 import { ApolloClient } from 'apollo-client'
@@ -32,12 +33,20 @@ let theme = createMuiTheme({
 theme = responsiveFontSizes(theme)
 
 const App: React.FC = () => {
-  interface ReduxProvider {
+  interface LoginProvider {
     authToken: Record<string, string>
   }
 
+  interface AuthenticatedProvider {
+    loggedIn: boolean
+  }
+
+  const authenticated = useSelector(
+    (state: Record<string, AuthenticatedProvider>) => state.user.loggedIn
+  )
+
   const { authToken } = useSelector(
-    (state: Record<string, ReduxProvider>) => state.user
+    (state: Record<string, LoginProvider>) => state.user
   )
 
   const authorizationHeader =
@@ -80,6 +89,7 @@ const App: React.FC = () => {
         <CssBaseline />
         <Router history={history}>
           <ThemeProvider theme={theme}>
+            {authenticated && <MainMenu />}
             <Container fixed>
               <Routes />
             </Container>
