@@ -24,9 +24,13 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: 'rgba(0, 0, 0, 0.08)',
     marginRight: '10px',
     marginBottom: '10px',
+    padding: '10px 20px',
     '&:hover': {
       backgroundColor: 'rgba(0, 0, 0, 0.2)'
-    }
+    },
+    color: 'white',
+    textDecoration: 'none',
+    borderRadius: '7px'
   }
 }))
 
@@ -34,7 +38,7 @@ const MainMenu = () => {
   const classes = useStyles()
 
   return (
-    <AppBar className={classes.appBar} position="static">
+    <AppBar className={classes.appBar} position="absolute">
       <Toolbar className={classes.toolBar}>
         <NavLink to={routes.home} className={classes.button}>
           Home
