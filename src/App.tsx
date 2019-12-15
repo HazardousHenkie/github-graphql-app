@@ -14,6 +14,7 @@ import { ThemeProvider } from '@material-ui/styles'
 
 import { WithAuthentication } from './components/authentication'
 import MainMenu from './components/mainMenu'
+import Footer from './components/Footer'
 
 import { ApolloProvider } from 'react-apollo'
 import { ApolloClient } from 'apollo-client'
@@ -93,6 +94,7 @@ const App: React.FC = () => {
             <Container fixed>
               <Routes />
             </Container>
+            <Footer />
           </ThemeProvider>
         </Router>
       </div>

@@ -34,7 +34,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const MainMenu = () => {
+const MainMenu: React.FC = () => {
   const classes = useStyles()
 
   return (
