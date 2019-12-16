@@ -7,6 +7,7 @@ import ExitToApp from '@material-ui/icons/ExitToApp'
 import Business from '@material-ui/icons/Business'
 
 import Background from '../background'
+import ScrollTo from '../scrollTo'
 
 export interface ProfileProps {
   user: Record<string, string>
@@ -47,6 +48,8 @@ const Profile: React.FC<ProfileProps> = ({ user }) => {
           )}
         </ul>
       </React.Fragment>
+
+      <ScrollTo scrollTo="repositories" />
     </div>
   )
 }

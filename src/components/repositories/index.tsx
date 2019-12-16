@@ -40,7 +40,6 @@ const Repositories: React.FC<RepositoriesProps> = ({
   fetchMore,
   entry
 }) => {
-  //　maybe don't have => entry here but have it inside there with previousresult
   const updateQuery = (entry: string) => (
     previousResult: Record<string, any>,
     { fetchMoreResult }: Record<string, any>
@@ -67,6 +66,7 @@ const Repositories: React.FC<RepositoriesProps> = ({
 
   return (
     <Grid
+      id="repositories"
       className="repositories"
       container
       alignItems="stretch"

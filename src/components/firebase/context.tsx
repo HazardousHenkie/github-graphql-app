@@ -20,7 +20,6 @@ interface WithFirebaseProps {
   firebase: Firebase
 }
 
-// check if we can fix the annotation
 export const withFirebase = <P extends object>(
   Component: React.ComponentType<P>
 ) =>
