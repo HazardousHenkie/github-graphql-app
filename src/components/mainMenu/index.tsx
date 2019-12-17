@@ -38,7 +38,7 @@ const MainMenu: React.FC = () => {
   const classes = useStyles()
 
   return (
-    <AppBar className={classes.appBar} position="absolute">
+    <AppBar className={classes.appBar} position="relative">
       <Toolbar className={classes.toolBar}>
         <NavLink to={routes.home} className={classes.button}>
           Home

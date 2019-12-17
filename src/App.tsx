@@ -90,7 +90,7 @@ const App: React.FC = () => {
         <CssBaseline />
         <Router history={history}>
           <ThemeProvider theme={theme}>
-            {authenticated && <MainMenu />}
+            <div className="menu">{authenticated && <MainMenu />}</div>
             <Container fixed>
               <Routes />
             </Container>

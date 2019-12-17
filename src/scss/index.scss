@@ -1,1 +1,13 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+.App {
+  min-height: 100%;
+  display: grid;
+  grid-template-rows: 74px auto 80px;
+}

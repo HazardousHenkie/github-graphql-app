@@ -12,6 +12,8 @@ import ErrorMessage from '../../components/errorMessage'
 import getCurrentUserData from '../../queries/user'
 import { useQuery } from '@apollo/react-hooks'
 
+import './home.scss'
+
 const Home: React.FC = () => {
   const { loading, error, data, fetchMore } = useQuery(getCurrentUserData, {
     notifyOnNetworkStatusChange: true
@@ -37,7 +39,7 @@ const Home: React.FC = () => {
   }
 
   return (
-    <React.Fragment>
+    <div className="home">
       <Profile user={information} />
 
       <Repositories
@@ -46,7 +48,7 @@ const Home: React.FC = () => {
         repositories={viewer.repositories}
         entry={'viewer'}
       />
-    </React.Fragment>
+    </div>
   )
 }
 

@@ -28,7 +28,7 @@ const Organization: React.FC = () => {
   )
 
   return (
-    <React.Fragment>
+    <div className="organization">
       <InfoMessage infoMessage="Only OAuth Apps you authorized in your Github account can be searched for." />
 
       <Search setSearch={setSearch} />
@@ -49,7 +49,7 @@ const Organization: React.FC = () => {
           entry={'organization'}
         />
       )}
-    </React.Fragment>
+    </div>
   )
 }
 

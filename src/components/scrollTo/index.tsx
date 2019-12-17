@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Link, animateScroll as scroll } from 'react-scroll'
+import { Link } from 'react-scroll'
 
 import './scrollTo.scss'
 
@@ -10,11 +10,14 @@ interface ScrollToProps {
 
 const ScrollTo: React.FC<ScrollToProps> = ({ scrollTo }) => {
   return (
-    <Link activeClass="active" smooth={true} to={scrollTo}>
-      <div className="scroll_to">
-        <span className="scroll_to__mouse"></span>
-        <span className="scroll_to__text">Scroll</span>
-      </div>
+    <Link
+      className="scroll_to"
+      activeClass="active"
+      smooth={true}
+      to={scrollTo}
+    >
+      <span className="scroll_to__mouse"></span>
+      <span className="scroll_to__text">Scroll</span>
     </Link>
   )
 }
