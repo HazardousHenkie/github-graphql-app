@@ -1,17 +1,14 @@
-@import '../../scss/variables.scss';
+@import '../../../scss/variables.scss';
 
 .repository_card {
   height: 100%;
-
-  &__title {
-    padding-bottom: 10px;
-  }
 
   &__buttons {
     display: flex;
     align-items: center;
     justify-content: center;
     margin-top: 20px;
+    margin-bottom: 15px;
   }
 
   &__button {

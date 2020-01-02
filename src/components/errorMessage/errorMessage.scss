@@ -1,0 +1,12 @@
+@import '../../scss/variables.scss';
+
+.error_message {
+  color: $darkRed;
+  background-color: $backgroundRed;
+  border-color: $borderRed;
+  position: relative;
+  padding: 0.75rem 1.25rem;
+  margin: 1rem 0;
+  border: 1px solid transparent;
+  border-radius: 0.25rem;
+}

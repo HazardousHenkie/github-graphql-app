@@ -1,6 +1,15 @@
 import React from 'react'
 
-import './resporityItem.scss'
+import './scss/resporityItem.scss'
+
+import { useMutation } from '@apollo/react-hooks'
+import {
+  starRepository,
+  unstarRepository,
+  watchRepository
+} from './graphql/mutations'
+import repositoryFragment from './graphql/fragments'
+import { DataProxy } from 'apollo-cache'
 
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
@@ -10,6 +19,7 @@ import StarIcon from '@material-ui/icons/Star'
 import VisibilityIcon from '@material-ui/icons/Visibility'
 
 interface RepositoriesProps {
+  id: number
   ownerLogin: string
   ownerUrl: string
   description: string
@@ -18,9 +28,12 @@ interface RepositoriesProps {
   watchers: number
   name: string
   url: string
+  viewerHasStarred: boolean
+  viewerSubscription: string
 }
 
 const RepositoryItem: React.FC<RepositoriesProps> = ({
+  id,
   name,
   url,
   ownerLogin,
@@ -28,8 +41,146 @@ const RepositoryItem: React.FC<RepositoriesProps> = ({
   description,
   primaryLanguage,
   stargazers,
-  watchers
+  watchers,
+  viewerHasStarred,
+  viewerSubscription
 }) => {
+  const [addStar] = useMutation(starRepository)
+  const [removeStar] = useMutation(unstarRepository)
+  const [updateSubscription] = useMutation(watchRepository)
+
+  const getUpdatedStarData = (
+    proxy: DataProxy,
+    id: number,
+    viewerHasStarred: boolean
+  ) => {
+    const data: any = proxy.readFragment({
+      id: `Repository:${id}`,
+      fragment: repositoryFragment
+    })
+
+    let { totalCount } = data.stargazers
+    totalCount = viewerHasStarred ? totalCount + 1 : totalCount - 1
+    proxy.writeFragment({
+      id: `Repository:${id}`,
+      fragment: repositoryFragment,
+      data: {
+        ...data,
+        stargazers: { ...data.stargazers, totalCount }
+      }
+    })
+  }
+
+  const viewerSubscriptions = {
+    subscribed: 'SUBSCRIBED',
+    unsubscribed: 'UNSUBSCRIBED'
+  }
+  const isWatch = (viewerSubscription: string): boolean =>
+    viewerSubscription === viewerSubscriptions.subscribed
+
+  const watchRepositoryWrapper = () =>
+    updateSubscription({
+      variables: {
+        id,
+        viewerSubscription: isWatch(viewerSubscription)
+          ? viewerSubscriptions.unsubscribed
+          : viewerSubscriptions.subscribed
+      },
+      optimisticResponse: {
+        updateSubscription: {
+          __typename: 'Mutation',
+          subscribable: {
+            __typename: 'Repository',
+            id,
+            viewerSubscription: isWatch(viewerSubscription)
+              ? viewerSubscriptions.unsubscribed
+              : viewerSubscriptions.subscribed
+          }
+        }
+      },
+      update: (
+        proxy,
+        {
+          data: {
+            updateSubscription: {
+              subscribable: { id, viewerSubscription }
+            }
+          }
+        }
+      ) => {
+        const data: any = proxy.readFragment({
+          id: `Repository:${id}`,
+          fragment: repositoryFragment
+        })
+
+        let { totalCount } = data.watchers
+        totalCount =
+          viewerSubscription === viewerSubscriptions.subscribed
+            ? totalCount + 1
+            : totalCount - 1
+
+        proxy.writeFragment({
+          id: `Repository:${id}`,
+          fragment: repositoryFragment,
+          data: {
+            ...data,
+            watchers: { ...data.watchers, totalCount }
+          }
+        })
+      }
+    })
+
+  const addStarWrapper = () =>
+    addStar({
+      variables: { id },
+      optimisticResponse: {
+        addStar: {
+          __typename: 'Mutation',
+          starrable: {
+            __typename: 'Repository',
+            id,
+            viewerHasStarred: !viewerHasStarred
+          }
+        }
+      },
+      update: (
+        proxy,
+        {
+          data: {
+            addStar: {
+              starrable: { id, viewerHasStarred }
+            }
+          }
+        }
+      ) => getUpdatedStarData(proxy, id, viewerHasStarred)
+    })
+
+  const removeStarWrapper = () =>
+    removeStar({
+      variables: { id },
+      optimisticResponse: {
+        removeStar: {
+          __typename: 'Mutation',
+
+          starrable: {
+            __typename: 'Repository',
+            id,
+            viewerHasStarred: !viewerHasStarred
+          }
+        }
+      },
+      update: (
+        proxy,
+        {
+          data: {
+            removeStar: {
+              starrable: { id, viewerHasStarred }
+            }
+          }
+        }
+      ) => getUpdatedStarData(proxy, id, viewerHasStarred)
+    })
+
   return (
     <Card className="repository_card">
       <CardContent>
@@ -41,31 +192,46 @@ const RepositoryItem: React.FC<RepositoriesProps> = ({
           {name}
         </Typography>
 
-        <Typography variant="body2" component="p">
-          {description}
-        </Typography>
-
         <div className="repository_card__buttons">
           <Button
             className="repository_card__button"
             variant="contained"
-            color="secondary"
+            color={isWatch(viewerSubscription) ? 'primary' : 'secondary'}
             startIcon={<VisibilityIcon />}
+            onClick={() => watchRepositoryWrapper()}
           >
-            Watchers {watchers}
+            {isWatch(viewerSubscription) ? 'Unwatch' : 'Watch'} {watchers}
           </Button>
-          <Button
-            className="repository_card__button"
-            variant="contained"
-            color="secondary"
-            startIcon={<StarIcon />}
-          >
-            Stars {stargazers}
-          </Button>
+
+          {!viewerHasStarred ? (
+            <Button
+              className="repository_card__button"
+              variant="contained"
+              color="secondary"
+              onClick={() => addStarWrapper()}
+              startIcon={<StarIcon />}
+            >
+              Star {stargazers}
+            </Button>
+          ) : (
+            <Button
+              className="repository_card__button"
+              variant="contained"
+              color="primary"
+              onClick={() => removeStarWrapper()}
+              startIcon={<StarIcon />}
+            >
+              Unstar {stargazers}
+            </Button>
+          )}
         </div>
 
+        <Typography variant="body2" component="p">
+          {description}
+        </Typography>
+
         <ul className="repository_card__list">
-          <li>Language: {primaryLanguage}</li>
+          {primaryLanguage !== '' && <li>Language: {primaryLanguage}</li>}
           <li>
             Owner:
             <a className="repository_card__link" href={ownerUrl}>
@@ -84,4 +250,4 @@ const RepositoryItem: React.FC<RepositoriesProps> = ({
   )
 }
 
-export default React.memo(RepositoryItem)
+export default RepositoryItem

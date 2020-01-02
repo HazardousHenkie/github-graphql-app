@@ -1,12 +1,15 @@
 import React from 'react'
 import RepositoryItem from './repositoryItem'
 
-import './repositories.scss'
+import './scss/repositories.scss'
 
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 
+import FetchMore from '../../components/fetchMore'
+
 interface RepositoriesProps {
+  loading: boolean
   repositories: {
     edges: [
       {
@@ -19,14 +22,51 @@ interface RepositoriesProps {
         watchers: Record<string, number>
         name: string
         url: string
+        viewerHasStarred: boolean
       }
     ]
+    pageInfo: {
+      endCursor: string
+      hasNextPage: boolean
+    }
   }
+  fetchMore: any
+  entry: string
 }
 
-const Repositories: React.FC<RepositoriesProps> = ({ repositories }) => {
+const Repositories: React.FC<RepositoriesProps> = ({
+  loading,
+  repositories,
+  fetchMore,
+  entry
+}) => {
+  const updateQuery = (entry: string) => (
+    previousResult: Record<string, any>,
+    { fetchMoreResult }: Record<string, any>
+  ) => {
+    if (!fetchMoreResult) {
+      return previousResult
+    }
+
+    return {
+      ...previousResult,
+      [entry]: {
+        ...previousResult[entry],
+        repositories: {
+          ...previousResult[entry].repositories,
+          ...fetchMoreResult[entry].repositories,
+          edges: [
+            ...previousResult[entry].repositories.edges,
+            ...fetchMoreResult[entry].repositories.edges
+          ]
+        }
+      }
+    }
+  }
+
   return (
     <Grid
+      id="repositories"
       className="repositories"
       container
       alignItems="stretch"
@@ -38,20 +78,39 @@ const Repositories: React.FC<RepositoriesProps> = ({ repositories }) => {
           Repositories
         </Typography>
       </Grid>
-      {repositories.edges.map(({ node }: any) => (
+      {repositories.edges.map(({ node }: Record<string, any>) => (
         <Grid item xs={12} sm={6} md={4} key={node.id}>
           <RepositoryItem
+            id={node.id}
             ownerLogin={node.owner.login}
             ownerUrl={node.owner.url}
             description={node.description}
-            primaryLanguage={node.primaryLanguage.name}
+            primaryLanguage={
+              node.primaryLanguage !== null ? node.primaryLanguage.name : ''
+            }
             stargazers={node.stargazers.totalCount}
             watchers={node.watchers.totalCount}
             name={node.name}
             url={node.url}
+            viewerHasStarred={node.viewerHasStarred}
+            viewerSubscription={node.viewerSubscription}
           />
         </Grid>
       ))}
+
+      <Grid item>
+        <FetchMore
+          loading={loading}
+          hasNextPage={repositories.pageInfo.hasNextPage}
+          variables={{
+            cursor: repositories.pageInfo.endCursor
+          }}
+          updateQuery={updateQuery(entry)}
+          fetchMore={fetchMore}
+        >
+          Repositories
+        </FetchMore>
+      </Grid>
     </Grid>
   )
 }

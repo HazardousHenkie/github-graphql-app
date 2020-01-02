@@ -4,85 +4,51 @@ import { compose } from 'recompose'
 import Profile from '../../components/profile'
 import Loading from '../../components/loading'
 import Repositories from '../../components/repositories'
+
 import { WithAuthorization } from '../../components/authentication'
 
-import gql from 'graphql-tag'
-import { Query } from 'react-apollo'
+import ErrorMessage from '../../components/errorMessage'
+
+import getCurrentUserData from '../../queries/user'
+import { useQuery } from '@apollo/react-hooks'
+
+import './home.scss'
 
 const Home: React.FC = () => {
-  const getCurrentUserData = gql`
-    {
-      viewer {
-        login
-        websiteUrl
-        location
-        email
-        company
-        bio
-        repositories(
-          first: 5
-          orderBy: { direction: DESC, field: CREATED_AT }
-        ) {
-          edges {
-            node {
-              id
-              name
-              url
-              description
-              primaryLanguage {
-                name
-              }
-              owner {
-                login
-                url
-              }
-              stargazers {
-                totalCount
-              }
-              watchers {
-                totalCount
-              }
-            }
-          }
-        }
-      }
-    }
-  `
+  const { loading, error, data, fetchMore } = useQuery(getCurrentUserData, {
+    notifyOnNetworkStatusChange: true
+  })
+
+  if (error) {
+    return <ErrorMessage errorMessage={error.toString()} />
+  }
+
+  if (!data || (loading && !data)) {
+    return <Loading />
+  }
+
+  const { viewer } = data
+
+  const information = {
+    login: viewer.login,
+    websiteUrl: viewer.websiteUrl,
+    location: viewer.location,
+    email: viewer.email,
+    company: viewer.company,
+    bio: viewer.bio
+  }
 
   return (
-    <Query query={getCurrentUserData}>
-      {({ data, loading, error }: Record<string, any>) => {
-        if (error) {
-          //   return setSnackbarState({
-          //     message: error,
-          //     variant: 'error'
-          //   })
-        }
+    <div className="home">
+      <Profile user={information} />
 
-        if (loading || !data) {
-          return <Loading />
-        }
-
-        const { viewer } = data
-
-        const information = {
-          login: viewer.login,
-          websiteUrl: viewer.websiteUrl,
-          location: viewer.location,
-          email: viewer.email,
-          company: viewer.company,
-          bio: viewer.bio
-        }
-
-        return (
-          <React.Fragment>
-            <Profile user={information} />
-
-            <Repositories repositories={viewer.repositories} />
-          </React.Fragment>
-        )
-      }}
-    </Query>
+      <Repositories
+        loading={loading}
+        fetchMore={fetchMore}
+        repositories={viewer.repositories}
+        entry={'viewer'}
+      />
+    </div>
   )
 }
 

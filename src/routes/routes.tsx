@@ -5,6 +5,7 @@ import * as routes from '../constants/routes'
 
 import Login from '../pages/login'
 import Home from '../pages/home'
+import Organization from '../pages/organization'
 import SignOut from '../pages/signOut'
 import Error from '../pages/error'
 
@@ -14,6 +15,7 @@ const Routes: React.FC = () => {
       <Switch>
         <Route path={routes.login} exact component={Login} />
         <Route path={routes.home} exact component={Home} />
+        <Route path={routes.organization} exact component={Organization} />
         <Route path={routes.signOut} exact component={SignOut} />
         <Route component={Error} />
       </Switch>
