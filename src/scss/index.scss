@@ -7,7 +7,16 @@ body,
 }
 
 .App {
-  min-height: 100%;
-  display: grid;
-  grid-template-rows: 74px auto 80px;
+  &__menu {
+    min-height: 100%;
+    display: grid;
+    grid-template-rows: 74px auto 80px;
+  }
+}
+
+.center-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }

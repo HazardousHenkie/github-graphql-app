@@ -1,0 +1,12 @@
+.login {
+  height: 100vh;
+
+  &__title {
+    padding-bottom: 10px;
+  }
+
+  &__signup_forms {
+    position: relative;
+    z-index: 2;
+  }
+}
