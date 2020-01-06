@@ -9,6 +9,8 @@ import Typography from '@material-ui/core/Typography'
 import Paper from '@material-ui/core/Paper'
 import { makeStyles } from '@material-ui/core/styles'
 
+import Background from '../../components/background'
+
 import SignInGithub from '../../components/login/signInGithub'
 import { home } from '../../constants/routes'
 
@@ -36,6 +38,8 @@ const Login: React.FC = () => {
     <Grid container spacing={2}>
       <Grid item xs={12} sm={7} md={5}>
         <div className="home">
+          <Background />
+
           <header className="home__header">
             <Typography variant="h5" component="h2">
               Login
