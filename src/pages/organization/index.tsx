@@ -7,11 +7,14 @@ import Repositories from '../../components/repositories'
 import InfoMessage from '../../components/infoMessage'
 
 import { WithAuthorization } from '../../components/authentication'
+import Background from '../../components/background'
 
 import ErrorMessage from '../../components/errorMessage'
 
 import getRepositoriesForOrganization from '../../queries/organization'
 import { useQuery } from '@apollo/react-hooks'
+
+import './organization.scss'
 
 const Organization: React.FC = () => {
   const [organizationName, setSearch] = useState('')
@@ -29,26 +32,30 @@ const Organization: React.FC = () => {
 
   return (
     <div className="organization">
-      <InfoMessage infoMessage="Only OAuth Apps you authorized in your Github account can be searched for." />
+      <Background />
 
-      <Search setSearch={setSearch} />
+      <div className="organization__inner">
+        <InfoMessage infoMessage="Only OAuth Apps you authorized in your Github account can be searched for." />
 
-      {noOrganization && (
-        <ErrorMessage errorMessage="No organization filled in." />
-      )}
+        <Search setSearch={setSearch} />
 
-      {error && <ErrorMessage errorMessage={error.toString()} />}
+        {noOrganization && (
+          <ErrorMessage errorMessage="No organization filled in." />
+        )}
 
-      {loading && !data && <Loading />}
+        {error && <ErrorMessage errorMessage={error.toString()} />}
 
-      {!loading && !error && data && !noOrganization && (
-        <Repositories
-          loading={loading}
-          fetchMore={fetchMore}
-          repositories={data.organization.repositories}
-          entry={'organization'}
-        />
-      )}
+        {loading && !data && <Loading />}
+
+        {!loading && !error && data && !noOrganization && (
+          <Repositories
+            loading={loading}
+            fetchMore={fetchMore}
+            repositories={data.organization.repositories}
+            entry={'organization'}
+          />
+        )}
+      </div>
     </div>
   )
 }
