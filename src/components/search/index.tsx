@@ -14,7 +14,9 @@ const SearchScheme = Yup.object().shape({
 
 const useStyles = makeStyles(theme => ({
   textField: {
-    width: 'calc(100% - 100px)'
+    width: 'calc(100% - 100px)',
+    background: 'white',
+    borderRadius: '4px'
   },
   button: {
     height: '55px',

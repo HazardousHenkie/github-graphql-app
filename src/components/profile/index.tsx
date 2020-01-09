@@ -16,7 +16,7 @@ export interface ProfileProps {
 const Profile: React.FC<ProfileProps> = ({ user }) => {
   return (
     <div className="profile">
-      {/* <Background /> */}
+      <Background />
 
       <React.Fragment>
         <h1 className="profile__title">Hello, {user.login}!</h1>

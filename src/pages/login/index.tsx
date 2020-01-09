@@ -14,6 +14,8 @@ import Background from '../../components/background'
 import SignInGithub from '../../components/login/signInGithub'
 import { home } from '../../constants/routes'
 
+import './login.scss'
+
 const useStyles = makeStyles(theme => ({
   root: {
     padding: theme.spacing(3, 2)
@@ -35,19 +37,23 @@ const Login: React.FC = () => {
   }
 
   return (
-    <Grid container spacing={2}>
+    <Grid
+      className="login"
+      container
+      spacing={2}
+      justify="center"
+      alignItems="center"
+    >
       <Grid item xs={12} sm={7} md={5}>
-        <div className="home">
+        <div>
           <Background />
 
-          <header className="home__header">
-            <Typography variant="h5" component="h2">
-              Login
-            </Typography>
-          </header>
-
-          <div className="home__signup_forms">
+          <div className="login__signup_forms">
             <Paper className={`${classes.root} center-content`}>
+              <Typography className="login__title" variant="h5" component="h2">
+                Login
+              </Typography>
+
               <SignInGithub />
             </Paper>
           </div>

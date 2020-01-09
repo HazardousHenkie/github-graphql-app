@@ -86,7 +86,7 @@ const App: React.FC = () => {
 
   return (
     <ApolloProvider client={client}>
-      <div className="App">
+      <div className={`App ${authenticated ? 'App__menu' : 'App__no_menu'}`}>
         <CssBaseline />
         <Router history={history}>
           <ThemeProvider theme={theme}>
