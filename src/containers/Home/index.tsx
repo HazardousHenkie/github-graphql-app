@@ -7,7 +7,7 @@ import Repositories from 'components/RepositoriesList'
 
 import { WithAuthorization } from 'components/AuthenticationProvider'
 
-import ErrorMessage from 'components/ShowMessage'
+import ErrorMessage from 'components/ErrorMessage'
 
 import getCurrentUserData from 'containers/Home/queries/user'
 import { useQuery } from '@apollo/react-hooks'

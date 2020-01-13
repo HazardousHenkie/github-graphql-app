@@ -1,16 +1,14 @@
 import styled from 'styled-components'
 
-import App from 'containers/App/App'
+export interface StyledAppProps {
+  authenticated: boolean
+}
 
-export const StyledApp = styled(App)`
+export const StyledApp = styled.div.attrs({
+  className: 'App'
+})<StyledAppProps>`
   min-height: 100%;
   display: grid;
+  grid-template-rows: ${props =>
+    props.authenticated ? '74px auto 80px;' : '0 auto 80px;'};
 `
-
-//   .App__menu {
-//     grid-template-rows: 74px auto 80px;
-//   }
-
-//   .App__no_menu {
-//     grid-template-rows: 0px auto 80px;
-//   }

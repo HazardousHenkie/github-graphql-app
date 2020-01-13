@@ -4,12 +4,12 @@ import { compose } from 'recompose'
 import Search from 'components/SearchFor/search'
 import Loader from 'components/ShowLoader'
 import Repositories from 'components/RepositoriesList'
-import InfoMessage from 'components/ShowInformationMessage'
+import InfoMessage from 'components/InformationMessage'
 
 import { WithAuthorization } from 'components/AuthenticationProvider'
 import Background from 'components/BackgroundImage'
 
-import ErrorMessage from 'components/ShowMessage'
+import ErrorMessage from 'components/ErrorMessage'
 
 import getRepositoriesForOrganization from './queries/organization'
 import { useQuery } from '@apollo/react-hooks'

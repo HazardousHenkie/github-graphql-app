@@ -9,9 +9,9 @@ import history from 'utils/history'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import { ThemeProvider, StylesProvider } from '@material-ui/styles'
 
-import theme from 'baseStyling/themeStyles'
+import theme from 'styling/themeStyles'
 
-import 'BaseStyling/index.css'
+import './styling/index.css'
 import 'typeface-roboto'
 
 import * as serviceWorker from 'serviceWorker'

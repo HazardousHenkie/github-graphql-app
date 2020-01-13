@@ -7,6 +7,8 @@ import Routes from './routes'
 import Container from '@material-ui/core/Container'
 
 import { StyledApp } from './styledComponents/app'
+import theme from 'styling/styledComponentsTheme'
+import { ThemeProvider } from 'styled-components'
 
 import { WithAuthentication } from 'components/AuthenticationProvider'
 import MainMenu from './mainMenu'
@@ -72,15 +74,15 @@ const App: React.FC = () => {
 
   return (
     <ApolloProvider client={client}>
-      <StyledApp>
-        <div className="App">
+      <ThemeProvider theme={theme}>
+        <StyledApp authenticated={authenticated}>
           <div className="menu">{authenticated && <MainMenu />}</div>
           <Container fixed>
             <Routes />
           </Container>
           <Footer />
-        </div>
-      </StyledApp>
+        </StyledApp>
+      </ThemeProvider>
     </ApolloProvider>
   )
 }
