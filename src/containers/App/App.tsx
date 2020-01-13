@@ -2,15 +2,11 @@ import React from 'react'
 
 import { useSelector } from 'react-redux'
 
-import { Router } from 'react-router-dom'
 import Routes from './routes'
-import history from 'utils/history'
 
 import Container from '@material-ui/core/Container'
-import CssBaseline from '@material-ui/core/CssBaseline'
 
-import { createMuiTheme, responsiveFontSizes } from '@material-ui/core/styles'
-import { ThemeProvider } from '@material-ui/styles'
+import { StyledApp } from './styledComponents/app'
 
 import { WithAuthentication } from 'components/AuthenticationProvider'
 import MainMenu from './mainMenu'
@@ -22,16 +18,6 @@ import { ApolloLink } from 'apollo-link'
 import { createHttpLink } from 'apollo-link-http'
 import { InMemoryCache } from 'apollo-cache-inmemory'
 import { onError } from 'apollo-link-error'
-
-let theme = createMuiTheme({
-  palette: {
-    primary: {
-      main: '#343434'
-    }
-  }
-})
-
-theme = responsiveFontSizes(theme)
 
 const App: React.FC = () => {
   interface LoginProvider {
@@ -86,18 +72,15 @@ const App: React.FC = () => {
 
   return (
     <ApolloProvider client={client}>
-      <div className={`App ${authenticated ? 'App__menu' : 'App__no_menu'}`}>
-        <CssBaseline />
-        <Router history={history}>
-          <ThemeProvider theme={theme}>
-            <div className="menu">{authenticated && <MainMenu />}</div>
-            <Container fixed>
-              <Routes />
-            </Container>
-            <Footer />
-          </ThemeProvider>
-        </Router>
-      </div>
+      <StyledApp>
+        <div className="App">
+          <div className="menu">{authenticated && <MainMenu />}</div>
+          <Container fixed>
+            <Routes />
+          </Container>
+          <Footer />
+        </div>
+      </StyledApp>
     </ApolloProvider>
   )
 }
