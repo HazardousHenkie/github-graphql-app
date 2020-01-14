@@ -12,7 +12,7 @@ import ErrorMessage from 'components/ErrorMessage'
 import getCurrentUserData from 'containers/Home/queries/user'
 import { useQuery } from '@apollo/react-hooks'
 
-import './scss/home.scss'
+import { HomeStyled } from './styledComponents/home'
 
 const Home: React.FC = () => {
   const { loading, error, data, fetchMore } = useQuery(getCurrentUserData, {
@@ -39,7 +39,7 @@ const Home: React.FC = () => {
   }
 
   return (
-    <div className="home">
+    <HomeStyled>
       <Profile user={information} />
 
       <Repositories
@@ -48,7 +48,7 @@ const Home: React.FC = () => {
         repositories={viewer.repositories}
         entry={'viewer'}
       />
-    </div>
+    </HomeStyled>
   )
 }
 

@@ -1,6 +1,6 @@
 import React from 'react'
 
-import './scss/profile.scss'
+import { ProfileStyled } from './styledComponents/profile'
 
 import Email from '@material-ui/icons/Email'
 import ExitToApp from '@material-ui/icons/ExitToApp'
@@ -15,7 +15,7 @@ export interface ProfileProps {
 
 const Profile: React.FC<ProfileProps> = ({ user }) => {
   return (
-    <div className="profile">
+    <ProfileStyled className="profile">
       <Background />
 
       <React.Fragment>
@@ -50,7 +50,7 @@ const Profile: React.FC<ProfileProps> = ({ user }) => {
       </React.Fragment>
 
       <ScrollTo scrollTo="repositories" />
-    </div>
+    </ProfileStyled>
   )
 }
 

@@ -19,7 +19,7 @@ import CircularProgress from '@material-ui/core/CircularProgress'
 const Loader: React.FC = () => {
   return (
     <div className="loader">
-      <Backdrop open={true}>
+      <Backdrop open={false}>
         <CircularProgress color="inherit" />
       </Backdrop>
     </div>
