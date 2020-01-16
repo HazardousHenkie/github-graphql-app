@@ -1,17 +1,17 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-import App from './App'
+import App from 'containers/App/App'
 
-import './scss/index.scss'
+import 'scss/index.scss'
 
-import * as serviceWorker from './serviceWorker'
+import * as serviceWorker from 'serviceWorker'
 
 import { Provider } from 'react-redux'
-import { store, persistor } from './redux/store'
+import { store, persistor } from 'redux/store'
 import { PersistGate } from 'redux-persist/integration/react'
 
-import Firebase, { FirebaseContext } from './components/firebase'
+import Firebase, { FirebaseContext } from 'components/FirebaseProvider'
 
 ReactDOM.render(
   <Provider store={store}>

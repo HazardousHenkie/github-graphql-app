@@ -1,22 +1,3 @@
 {
-  "eslint.validate": [
-    "javascript",
-    "javascriptreact",
-    {
-      "language": "javascript",
-      "autoFix": true
-    },
-    {
-      "language": "typescript",
-      "autoFix": true
-    },
-    { "language": "javascriptreact", "autoFix": true },
-    {
-      "language": "typescriptreact",
-      "autoFix": true
-    }
-  ],
-  "eslint.autoFixOnSave": true,
-  "editor.formatOnSave": true,
-  "eslint.run": "onSave"
+  "editor.formatOnSave": true
 }
