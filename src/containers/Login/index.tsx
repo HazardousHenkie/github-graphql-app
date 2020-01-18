@@ -47,10 +47,7 @@ const Login: React.FC = () => {
 
           <LoginFormStyled>
             <Paper className={`${classes.root} center-content`}>
-              {/* variant="h5" component="h2" */}
-              <LoginTitleStyled variant="h5" component="h2">
-                Login
-              </LoginTitleStyled>
+              <LoginTitleStyled variant="h2">Login</LoginTitleStyled>
 
               <SignInGithub />
             </Paper>
