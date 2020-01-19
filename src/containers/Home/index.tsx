@@ -2,7 +2,7 @@ import React from 'react'
 import { compose } from 'recompose'
 
 import Profile from './profile'
-import Loader from 'components/ShowLoader'
+import Loader from 'components/Loader'
 import Repositories from 'components/RepositoriesList'
 
 import { WithAuthorization } from 'components/AuthenticationProvider'

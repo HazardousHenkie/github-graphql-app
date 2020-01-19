@@ -1,7 +1,9 @@
-// @import 'scss/variables.scss';
+import styled from 'styled-components'
 
-.background {
-  background-image: url('../../assets/background.jpg');
+import backgroundImage from 'assets/background.jpg'
+
+export const BackgroundStyled = styled.div`
+  background-image: url(${backgroundImage});
   // not supported in IE or Edge
   // background: url('./background.jpg') rgba(255, 0, 150, 0.3);
   // background-blend-mode: multiply;
@@ -15,9 +17,9 @@
 
   &:after {
     content: '';
-    // background: $transparent-black;
+    background: ${props => props.theme.transparentBlack};
     width: 100%;
     height: 100%;
     position: absolute;
   }
-}
+`

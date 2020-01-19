@@ -25,7 +25,7 @@ export const StyledNavLink = styled(NavLink)`
   margin-right: 10px;
   margin-bottom: 10px;
   padding: 10px 20px;
-  color: white;
+  color: ${props => props.theme.white};
   text-decoration: none;
   border-radius: 7px;
   &:hover: {

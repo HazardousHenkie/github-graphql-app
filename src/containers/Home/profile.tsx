@@ -14,7 +14,7 @@ import ExitToApp from '@material-ui/icons/ExitToApp'
 import Business from '@material-ui/icons/Business'
 
 import Background from 'components/BackgroundImage'
-import ScrollTo from 'components/ScrollToHashtag'
+import ScrollTo from 'components/ScrollTo'
 
 export interface ProfileProps {
   user: Record<string, string>

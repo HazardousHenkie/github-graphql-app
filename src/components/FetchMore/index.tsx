@@ -1,6 +1,6 @@
 import React from 'react'
 import Button from '@material-ui/core/Button'
-import Loader from 'components/ShowLoader'
+import Loader from 'components/Loader'
 
 interface FetchMoreProps {
   loading: boolean

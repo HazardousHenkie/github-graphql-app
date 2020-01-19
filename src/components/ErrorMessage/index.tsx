@@ -1,13 +1,19 @@
 import React from 'react'
 
-import './errorMessage.scss'
+import { Alert } from '@material-ui/lab'
+
+import { ErrorMessageWrapper } from './styledComponents/errorMessage'
 
 interface ErrorProps {
   errorMessage: string
 }
 
 const ErrorMessage: React.FC<ErrorProps> = ({ errorMessage }) => {
-  return <div className="error_message">{errorMessage}</div>
+  return (
+    <ErrorMessageWrapper>
+      <Alert severity="error">{errorMessage}</Alert>
+    </ErrorMessageWrapper>
+  )
 }
 
 export default React.memo(ErrorMessage)

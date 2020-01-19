@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { compose } from 'recompose'
 
 import Search from 'components/SearchFor/search'
-import Loader from 'components/ShowLoader'
+import Loader from 'components/Loader'
 import Repositories from 'components/RepositoriesList'
 import InfoMessage from 'components/InformationMessage'
 
@@ -14,7 +14,7 @@ import ErrorMessage from 'components/ErrorMessage'
 import getRepositoriesForOrganization from './queries/organization'
 import { useQuery } from '@apollo/react-hooks'
 
-import './scss/organization.scss'
+import { OrganizationStyled } from './styledComponents/organization'
 
 const Organization: React.FC = () => {
   const [organizationName, setSearch] = useState('')
@@ -31,10 +31,10 @@ const Organization: React.FC = () => {
   )
 
   return (
-    <div className="organization">
+    <React.Fragment>
       <Background />
 
-      <div className="organization__inner">
+      <OrganizationStyled>
         <InfoMessage infoMessage="Only OAuth Apps you authorized in your Github account can be searched for." />
 
         <Search setSearch={setSearch} />
@@ -55,8 +55,8 @@ const Organization: React.FC = () => {
             entry={'organization'}
           />
         )}
-      </div>
-    </div>
+      </OrganizationStyled>
+    </React.Fragment>
   )
 }
 

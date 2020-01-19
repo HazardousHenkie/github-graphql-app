@@ -1,7 +1,5 @@
 import React from 'react'
 
-import './scss/resporityItem.scss'
-
 import { useMutation } from '@apollo/react-hooks'
 import {
   starRepository,
@@ -11,12 +9,20 @@ import {
 import repositoryFragment from './graphql/fragments'
 import { DataProxy } from 'apollo-cache'
 
-import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 import StarIcon from '@material-ui/icons/Star'
 import VisibilityIcon from '@material-ui/icons/Visibility'
+
+import {
+  RepositoryCardStyled,
+  RepositoriesTitleStyled,
+  RepositoriesButtonsStyled,
+  RepositoriesButtonStyled,
+  RepositoriesListStyled,
+  RepositoriesLinkStyled
+} from './styledComponents/respositoryItem'
 
 interface RepositoriesProps {
   id: number
@@ -182,71 +188,62 @@ const RepositoryItem: React.FC<RepositoriesProps> = ({
     })
 
   return (
-    <Card className="repository_card">
+    <RepositoryCardStyled>
       <CardContent>
-        <Typography
-          className="repository_card__title"
-          variant="h5"
-          component="h3"
-        >
-          {name}
-        </Typography>
+        <RepositoriesTitleStyled variant="h5">{name}</RepositoriesTitleStyled>
 
-        <div className="repository_card__buttons">
-          <Button
-            className="repository_card__button"
+        <RepositoriesButtonsStyled>
+          <RepositoriesButtonStyled
             variant="contained"
             color={isWatch(viewerSubscription) ? 'primary' : 'secondary'}
             startIcon={<VisibilityIcon />}
             onClick={() => watchRepositoryWrapper()}
           >
             {isWatch(viewerSubscription) ? 'Unwatch' : 'Watch'} {watchers}
-          </Button>
+          </RepositoriesButtonStyled>
 
           {!viewerHasStarred ? (
-            <Button
-              className="repository_card__button"
+            <RepositoriesButtonStyled
               variant="contained"
               color="secondary"
               onClick={() => addStarWrapper()}
               startIcon={<StarIcon />}
             >
               Star {stargazers}
-            </Button>
+            </RepositoriesButtonStyled>
           ) : (
-            <Button
-              className="repository_card__button"
+            <RepositoriesButtonStyled
               variant="contained"
               color="primary"
               onClick={() => removeStarWrapper()}
               startIcon={<StarIcon />}
             >
               Unstar {stargazers}
-            </Button>
+            </RepositoriesButtonStyled>
           )}
-        </div>
+        </RepositoriesButtonsStyled>
 
-        <Typography variant="body2" component="p">
+        <Typography variant="body2" component="p" align="center">
           {description}
         </Typography>
 
-        <ul className="repository_card__list">
+        <RepositoriesListStyled>
           {primaryLanguage !== '' && <li>Language: {primaryLanguage}</li>}
           <li>
             Owner:
-            <a className="repository_card__link" href={ownerUrl}>
+            <RepositoriesLinkStyled href={ownerUrl}>
               {ownerLogin}
-            </a>
+            </RepositoriesLinkStyled>
           </li>
-        </ul>
+        </RepositoriesListStyled>
 
-        <div className="repository_card__buttons">
+        <RepositoriesButtonsStyled>
           <Button variant="contained" color="primary" href={url}>
             Check on github
           </Button>
-        </div>
+        </RepositoriesButtonsStyled>
       </CardContent>
-    </Card>
+    </RepositoryCardStyled>
   )
 }
 
