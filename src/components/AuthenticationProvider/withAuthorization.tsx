@@ -1,43 +1,34 @@
-import React, { useEffect } from 'react'
-
-import AuthUserContext from './context'
-
-import { withFirebase, FirebaseProviderProps } from '../FirebaseProvider'
+import React, { useContext } from 'react'
 
 import history from 'utils/history'
-import * as routes from 'utils/routes'
+import { login } from 'utils/routes'
+
+import AuthUserContext from './context'
 
 const withAuthorization = <Props extends object>(
   Component: React.ComponentType<Props>
 ) => {
-  const WithAuthorization: React.FC<Props & FirebaseProviderProps> = props => {
-    const { firebase } = props
+  const WithAuthorization: React.FC<Props> = props => {
+    // do we need this? yes since we don"t have authenticated routes
+    // check where we go first here or the page
 
-    useEffect(() => {
-      const unsubscribe = firebase.auth.onAuthStateChanged(
-        authUser => {
-          if (!authUser) {
-            history.push(routes.login)
-          }
-        },
-        () => history.push(routes.login)
-      )
+    // are we gonna check with the server if were all still authenticated?
+    const { authenticated } = useContext(AuthUserContext)
 
-      return (): void => {
-        unsubscribe()
-      }
-    }, [firebase])
+    if (!authenticated) {
+      history.push(login)
+    }
 
     return (
       <AuthUserContext.Consumer>
         {(authenticated): React.ReactNode =>
-          authenticated === true ? <Component {...(props as Props)} /> : ''
+          authenticated ? <Component {...(props as Props)} /> : ''
         }
       </AuthUserContext.Consumer>
     )
   }
 
-  return withFirebase(WithAuthorization)
+  return WithAuthorization
 }
 
 export default withAuthorization

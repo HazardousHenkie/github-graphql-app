@@ -1,5 +1,15 @@
-import React from 'react'
+import { createContext } from 'react'
 
-const AuthUserContext = React.createContext({})
+interface AuthenticatedState {
+  authenticated: Boolean
+  logIn(data: Record<string, any>): void
+  logOut(): void
+}
+
+const AuthUserContext = createContext<AuthenticatedState>({
+  authenticated: false,
+  logIn: (): void => {},
+  logOut: (): void => {}
+})
 
 export default AuthUserContext
