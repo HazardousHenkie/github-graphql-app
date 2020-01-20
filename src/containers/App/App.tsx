@@ -1,5 +1,7 @@
 import React, { useContext } from 'react'
 
+import { compose } from 'recompose'
+
 import Routes from './routes'
 
 import Container from '@material-ui/core/Container'
@@ -8,6 +10,7 @@ import { StyledApp } from './styledComponents/app'
 import theme from 'styling/styledComponentsTheme'
 import { ThemeProvider } from 'styled-components'
 
+import { withSnackbar } from 'components/SnackbarProvider'
 import {
   WithAuthentication,
   AuthUserContext
@@ -24,7 +27,7 @@ import { InMemoryCache } from 'apollo-cache-inmemory'
 import { onError } from 'apollo-link-error'
 
 const App: React.FC = () => {
-  const { authenticated, user, logOut } = useContext(AuthUserContext)
+  const { authenticated, user } = useContext(AuthUserContext)
 
   const authorizationHeader =
     user && user.authToken && user.authToken.oauthAccessToken
@@ -49,7 +52,6 @@ const App: React.FC = () => {
       })
     }
     if (networkError) {
-      logOut()
       return console.log(`[Network error]: ${networkError}`)
     }
   })
@@ -75,4 +77,5 @@ const App: React.FC = () => {
     </ApolloProvider>
   )
 }
-export default WithAuthentication(App)
+
+export default compose(withSnackbar, WithAuthentication)(App)

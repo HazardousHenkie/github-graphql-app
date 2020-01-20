@@ -27,15 +27,13 @@ const Home: React.FC = () => {
     return <Loader />
   }
 
-  const { viewer } = data
-
   const information = {
-    login: viewer.login,
-    websiteUrl: viewer.websiteUrl,
-    location: viewer.location,
-    email: viewer.email,
-    company: viewer.company,
-    bio: viewer.bio
+    login: data.viewer.login,
+    websiteUrl: data.viewer.websiteUrl,
+    location: data.viewer.location,
+    email: data.viewer.email,
+    company: data.viewer.company,
+    bio: data.viewer.bio
   }
 
   return (
@@ -45,7 +43,7 @@ const Home: React.FC = () => {
       <Repositories
         loading={loading}
         fetchMore={fetchMore}
-        repositories={viewer.repositories}
+        repositories={data.viewer.repositories}
         entry={'viewer'}
       />
     </HomeStyled>

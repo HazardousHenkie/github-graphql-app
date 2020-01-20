@@ -13,7 +13,7 @@ import Typography from '@material-ui/core/Typography'
 import moment from 'moment'
 
 import { withFirebase, FirebaseProviderProps } from '../FirebaseProvider'
-import useSnackbarContext from '../snackbar/context'
+import { snackbarContext } from 'components/SnackbarProvider'
 import { AuthUserContext } from 'components/AuthenticationProvider'
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -47,7 +47,7 @@ export const CustomizedDialogs: React.FC<FirebaseProviderProps> = ({
 }) => {
   const { logOut } = useContext(AuthUserContext)
   const [open, setOpen] = React.useState(false)
-  const { setSnackbarState } = useSnackbarContext()
+  const { setSnackbarState } = useContext(snackbarContext)
   const classes = useStyles()
 
   const HandleClickOpen = (): void => {

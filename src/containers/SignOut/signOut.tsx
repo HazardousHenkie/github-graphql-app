@@ -9,14 +9,14 @@ import {
 import * as routes from 'utils/routes'
 import history from 'utils/history'
 
-import useSnackbarContext from 'components/snackbar/context'
+import { snackbarContext } from 'components/SnackbarProvider'
 import { AuthUserContext } from 'components/AuthenticationProvider'
 
 export const SignOutButton: React.FC<FirebaseProviderProps> = ({
   firebase
 }) => {
   const { logOut } = useContext(AuthUserContext)
-  const { setSnackbarState } = useSnackbarContext()
+  const { setSnackbarState } = useContext(snackbarContext)
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>): void => {
     event.preventDefault()

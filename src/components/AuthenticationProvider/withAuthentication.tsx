@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect, useCallback, useContext } from 'react'
 
 import AuthUserContext from './context'
 
@@ -7,32 +7,48 @@ import { withFirebase, FirebaseProviderProps } from '../FirebaseProvider'
 import history from 'utils/history'
 import { home, login } from 'utils/routes'
 
-import useSnackbarContext from '../snackbar/context'
+import { snackbarContext } from '../SnackbarProvider'
+
+import Cookies from 'universal-cookie'
 
 const withAuthentication = <Props extends object>(
   Component: React.ComponentType<Props>
 ) => {
   const WithAuthentication: React.FC<Props & FirebaseProviderProps> = props => {
+    const cookies = new Cookies()
     const { firebase } = props
-    const [authenticated, setAuthenticated] = useState(false)
+    const [authenticated, setAuthenticated] = useState(
+      cookies.get('authenticated') ? cookies.get('authenticated') : false
+    )
+
     const [user, setUser] = useState({
-      userName: '',
-      userId: '',
-      authToken: null
+      userName: cookies.get('userName') ? cookies.get('userName') : '',
+      userId: cookies.get('userId') ? cookies.get('userId') : '',
+      authToken: cookies.get('userCredential')
+        ? cookies.get('userCredential')
+        : null
     })
-    const { setSnackbarState } = useSnackbarContext()
+    const { setSnackbarState } = useContext(snackbarContext)
 
     const logIn = (user: Record<string, any>) => {
       setAuthenticated(true)
 
+      const userName =
+        user.additionalUserInfo && user.additionalUserInfo.username
+          ? user.additionalUserInfo.username
+          : ''
+      const userId = user.user ? user.user.uid : ''
+
       setUser({
-        userName:
-          user.additionalUserInfo && user.additionalUserInfo.username
-            ? user.additionalUserInfo.username
-            : '',
-        userId: user.user ? user.user.uid : '',
+        userName: userName,
+        userId: userId,
         authToken: user.credential
       })
+
+      cookies.set('userName', userName)
+      cookies.set('userId', userId)
+      cookies.set('userCredential', user.credential)
+      cookies.set('authenticated', true)
 
       history.push(home)
     }
@@ -51,26 +67,48 @@ const withAuthentication = <Props extends object>(
         variant: 'error'
       })
 
+      cookies.remove('userName')
+      cookies.remove('userId')
+      cookies.remove('userCredential')
+      cookies.remove('authenticated')
+
       history.push(login)
-    }, [setSnackbarState])
+    }, [setSnackbarState, cookies])
 
     useEffect(() => {
       const listener = firebase.auth.onAuthStateChanged(authUser => {
         if (authUser) {
           if (!authenticated) {
-            logOut()
-          } else {
             setAuthenticated(true)
+
+            setUser({
+              userName: cookies.get('userName') ? cookies.get('userName') : '',
+              userId: cookies.get('userId') ? cookies.get('userId') : '',
+              authToken: cookies.get('userCredential')
+                ? cookies.get('userCredential')
+                : null
+            })
           }
         } else {
-          logOut()
+          if (authenticated) {
+            logOut()
+          } else {
+            history.push(login)
+          }
         }
       })
 
       return (): void => {
         listener()
       }
-    }, [firebase.auth, authenticated, setAuthenticated, logOut])
+    }, [
+      firebase.auth,
+      authenticated,
+      setAuthenticated,
+      setUser,
+      cookies,
+      logOut
+    ])
 
     const providingValues = {
       authenticated,

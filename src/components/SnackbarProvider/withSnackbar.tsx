@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-import { SnackbarContext } from './context'
+import SnackbarContext from './context'
 import CustomSnackbar from './snackbar'
 
 const withSnackbar = <Props extends object>(

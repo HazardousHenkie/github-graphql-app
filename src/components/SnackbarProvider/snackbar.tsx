@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 
 import CloseIcon from '@material-ui/icons/Close'
 import { green } from '@material-ui/core/colors'
@@ -11,7 +11,7 @@ import { makeStyles } from '@material-ui/core/styles'
 
 import clsx from 'clsx'
 
-import useSnackbarContext from './context'
+import snackbarContext from './context'
 
 const useStyles = makeStyles(theme => ({
   success: {
@@ -35,24 +35,25 @@ const useStyles = makeStyles(theme => ({
 
 const CustomSnackbar: React.FC = () => {
   const classes = useStyles()
-  const { snackbarState, setSnackbarState } = useSnackbarContext()
+  const { snackbarState, setSnackbarState } = useContext(snackbarContext)
 
-  let Icon
+  let icon
   let iconClass
 
   if (snackbarState.variant === 'success') {
-    Icon = (
+    icon = (
       <CheckCircleIcon className={clsx(classes.icon, classes.iconVariant)} />
     )
+
     iconClass = classes.success
   } else if (snackbarState.variant === 'error') {
-    Icon = <ErrorIcon className={clsx(classes.icon, classes.iconVariant)} />
+    icon = <ErrorIcon className={clsx(classes.icon, classes.iconVariant)} />
     iconClass = classes.error
   }
 
   const message = (
     <span id="client-snackbar" className={classes.message}>
-      {Icon}
+      {icon}
       {snackbarState.message}
     </span>
   )
