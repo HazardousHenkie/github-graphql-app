@@ -1,7 +1,5 @@
 import React, { useContext } from 'react'
 
-import { withStyles, Theme, makeStyles } from '@material-ui/core/styles'
-
 import Button from '@material-ui/core/Button'
 import Dialog from '@material-ui/core/Dialog'
 import MuiDialogTitle from '@material-ui/core/DialogTitle'
@@ -16,39 +14,12 @@ import { withFirebase, FirebaseProviderProps } from '../FirebaseProvider'
 import { snackbarContext } from 'components/SnackbarProvider'
 import { AuthUserContext } from 'components/AuthenticationProvider'
 
-const useStyles = makeStyles((theme: Theme) => ({
-  root: {
-    margin: 0,
-    padding: theme.spacing(2)
-  },
-  closeButton: {
-    position: 'absolute',
-    right: theme.spacing(1),
-    top: theme.spacing(1),
-    color: theme.palette.grey[500]
-  }
-}))
-
-const DialogContent = withStyles(theme => ({
-  root: {
-    padding: theme.spacing(2)
-  }
-}))(MuiDialogContent)
-
-const DialogActions = withStyles(theme => ({
-  root: {
-    margin: 0,
-    padding: theme.spacing(1)
-  }
-}))(MuiDialogActions)
-
 export const CustomizedDialogs: React.FC<FirebaseProviderProps> = ({
   firebase
 }) => {
   const { logOut } = useContext(AuthUserContext)
   const [open, setOpen] = React.useState(false)
   const { setSnackbarState } = useContext(snackbarContext)
-  const classes = useStyles()
 
   const HandleClickOpen = (): void => {
     setOpen(true)
@@ -108,24 +79,20 @@ export const CustomizedDialogs: React.FC<FirebaseProviderProps> = ({
         aria-labelledby="delete account"
         open={open}
       >
-        <MuiDialogTitle disableTypography className={classes.root}>
+        <MuiDialogTitle disableTypography>
           <Typography variant="h6"> Remove Account</Typography>
 
-          <IconButton
-            aria-label="close"
-            className={classes.closeButton}
-            onClick={HandleClose}
-          >
+          <IconButton aria-label="close" onClick={HandleClose}>
             <CloseIcon />
           </IconButton>
         </MuiDialogTitle>
 
-        <DialogContent dividers>
+        <MuiDialogContent dividers>
           <Typography gutterBottom>
             Are you sure you want to delete your account and all your data?
           </Typography>
-        </DialogContent>
-        <DialogActions>
+        </MuiDialogContent>
+        <MuiDialogActions>
           <Button onClick={HandleClose} color="primary">
             Cancel
           </Button>
@@ -133,7 +100,7 @@ export const CustomizedDialogs: React.FC<FirebaseProviderProps> = ({
           <Button onClick={HandleDelete} color="secondary">
             Delete Account
           </Button>
-        </DialogActions>
+        </MuiDialogActions>
       </Dialog>
     </div>
   )

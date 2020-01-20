@@ -4,6 +4,7 @@ body,
   height: 100%;
 }
 
+/* // change this one  */
 .center-content {
   display: flex;
   flex-direction: column;
