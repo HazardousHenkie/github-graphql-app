@@ -1,32 +1,21 @@
-import React from 'react'
-import { useDispatch } from 'react-redux'
+import React, { useContext } from 'react'
 
 import Button from '@material-ui/core/Button'
 import Group from '@material-ui/icons/Group'
-import { makeStyles } from '@material-ui/core/styles'
-import * as routes from 'utils/routes'
-import { setUser } from 'redux/actions'
+import { home } from 'utils/routes'
 
 import history from 'utils/history'
+
 import {
   withFirebase,
   FirebaseProviderProps
 } from 'components/FirebaseProvider'
 import useSnackbarContext from 'components/snackbar/context'
-
-const useStyles = makeStyles(theme => ({
-  button: {
-    margin: theme.spacing(1)
-  },
-  leftIcon: {
-    marginRight: theme.spacing(1)
-  }
-}))
+import { AuthUserContext } from 'components/AuthenticationProvider'
 
 const SignInGithub: React.FC<FirebaseProviderProps> = ({ firebase }) => {
-  const classes = useStyles()
+  const { logIn } = useContext(AuthUserContext)
   const { setSnackbarState } = useSnackbarContext()
-  const dispatch = useDispatch()
   const onSubmit = async (
     event: React.FormEvent<HTMLFormElement>
   ): Promise<void> => {
@@ -35,39 +24,22 @@ const SignInGithub: React.FC<FirebaseProviderProps> = ({ firebase }) => {
     firebase
       .doSignInWithGithub()
       .then(signInResult => {
-        dispatch(
-          setUser({
-            loggedIn: true,
-            userName:
-              signInResult.additionalUserInfo &&
-              signInResult.additionalUserInfo.username
-                ? signInResult.additionalUserInfo.username
-                : '',
-            userId: signInResult.user ? signInResult.user.uid : '',
-            authToken: signInResult.credential
-          })
-        )
+        logIn(signInResult)
 
         setSnackbarState({ message: 'Logged in!', variant: 'success' })
-        history.push(routes.login)
+        history.push(home)
       })
       .catch(error => {
         const { message } = error
         setSnackbarState({ message, variant: 'error' })
-        history.push(routes.login)
       })
   }
 
   return (
     <div className="signin_github">
       <form onSubmit={onSubmit}>
-        <Button
-          type="submit"
-          variant="contained"
-          color="secondary"
-          className={classes.button}
-        >
-          <Group className={classes.leftIcon} />
+        <Button type="submit" variant="contained" color="secondary">
+          <Group />
           Sign In with Github
         </Button>
       </form>

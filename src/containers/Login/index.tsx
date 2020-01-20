@@ -1,9 +1,5 @@
 import React from 'react'
 
-import { useSelector } from 'react-redux'
-
-import { Redirect } from 'react-router-dom'
-
 import Grid from '@material-ui/core/Grid'
 import Paper from '@material-ui/core/Paper'
 import { makeStyles } from '@material-ui/core/styles'
@@ -11,7 +7,6 @@ import { makeStyles } from '@material-ui/core/styles'
 import Background from 'components/BackgroundImage'
 
 import SignInGithub from './signInGithub'
-import { home } from 'utils/routes'
 
 import {
   LoginStyled,
@@ -25,19 +20,8 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-interface ReduxProvider {
-  loggedIn: boolean
-}
-
 const Login: React.FC = () => {
   const classes = useStyles()
-  const authenticated = useSelector(
-    (state: Record<string, ReduxProvider>) => state.user.loggedIn
-  )
-
-  if (authenticated) {
-    return <Redirect to={home} />
-  }
 
   return (
     <LoginStyled container spacing={2} justify="center" alignItems="center">

@@ -1,6 +1,4 @@
-import React from 'react'
-
-import { useSelector } from 'react-redux'
+import React, { useContext } from 'react'
 
 import Routes from './routes'
 
@@ -10,7 +8,11 @@ import { StyledApp } from './styledComponents/app'
 import theme from 'styling/styledComponentsTheme'
 import { ThemeProvider } from 'styled-components'
 
-import { WithAuthentication } from 'components/AuthenticationProvider'
+import {
+  WithAuthentication,
+  AuthUserContext
+} from 'components/AuthenticationProvider'
+
 import MainMenu from './mainMenu'
 import Footer from './footer'
 
@@ -22,27 +24,13 @@ import { InMemoryCache } from 'apollo-cache-inmemory'
 import { onError } from 'apollo-link-error'
 
 const App: React.FC = () => {
-  interface LoginProvider {
-    authToken: Record<string, string>
-  }
-
-  interface AuthenticatedProvider {
-    loggedIn: boolean
-  }
-
-  const authenticated = useSelector(
-    (state: Record<string, AuthenticatedProvider>) => state.user.loggedIn
-  )
-
-  const { authToken } = useSelector(
-    (state: Record<string, LoginProvider>) => state.user
-  )
+  const { authenticated, user, logOut } = useContext(AuthUserContext)
 
   const authorizationHeader =
-    authToken && authToken.oauthAccessToken
-      ? `Bearer ${authToken.oauthAccessToken}`
-      : authToken && authToken.accessToken
-      ? `Bearer ${authToken.accessToken}`
+    user && user.authToken && user.authToken.oauthAccessToken
+      ? `Bearer ${user.authToken.oauthAccessToken}`
+      : user && user.authToken && user.authToken.accessToken
+      ? `Bearer ${user.authToken.accessToken}`
       : null
 
   const httpLink = createHttpLink({
@@ -61,6 +49,7 @@ const App: React.FC = () => {
       })
     }
     if (networkError) {
+      logOut()
       return console.log(`[Network error]: ${networkError}`)
     }
   })

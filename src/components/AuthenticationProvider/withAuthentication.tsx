@@ -1,8 +1,11 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 
 import AuthUserContext from './context'
 
 import { withFirebase, FirebaseProviderProps } from '../FirebaseProvider'
+
+import history from 'utils/history'
+import { home, login } from 'utils/routes'
 
 import useSnackbarContext from '../snackbar/context'
 
@@ -12,47 +15,72 @@ const withAuthentication = <Props extends object>(
   const WithAuthentication: React.FC<Props & FirebaseProviderProps> = props => {
     const { firebase } = props
     const [authenticated, setAuthenticated] = useState(false)
+    const [user, setUser] = useState({
+      userName: '',
+      userId: '',
+      authToken: null
+    })
     const { setSnackbarState } = useSnackbarContext()
 
-    //data: Record<string, any> get data from auth user
-    const logIn = () => {
+    const logIn = (user: Record<string, any>) => {
       setAuthenticated(true)
+
+      setUser({
+        userName:
+          user.additionalUserInfo && user.additionalUserInfo.username
+            ? user.additionalUserInfo.username
+            : '',
+        userId: user.user ? user.user.uid : '',
+        authToken: user.credential
+      })
+
+      history.push(home)
     }
 
-    //remove data from auth user
-    const logOut = () => {
+    const logOut = useCallback(() => {
       setAuthenticated(false)
+
+      setUser({
+        userName: '',
+        userId: '',
+        authToken: null
+      })
+
       setSnackbarState({
-        message: 'Please login again!',
+        message: 'Logged out',
         variant: 'error'
       })
-    }
+
+      history.push(login)
+    }, [setSnackbarState])
 
     useEffect(() => {
       const listener = firebase.auth.onAuthStateChanged(authUser => {
         if (authUser) {
           if (!authenticated) {
-            logIn()
+            logOut()
+          } else {
+            setAuthenticated(true)
           }
         } else {
-          if (authenticated) {
-            logOut()
-          }
+          logOut()
         }
       })
 
       return (): void => {
         listener()
       }
-    }, [setAuthenticated, firebase, authenticated, setSnackbarState])
+    }, [firebase.auth, authenticated, setAuthenticated, logOut])
 
-    // userName: '',
-    // userId: '',
-    // authToken: null
-    // combine provider props
+    const providingValues = {
+      authenticated,
+      user,
+      logIn,
+      logOut
+    }
 
     return (
-      <AuthUserContext.Provider value={{ logIn, logOut, authenticated }}>
+      <AuthUserContext.Provider value={providingValues}>
         <Component {...(props as Props)} />
       </AuthUserContext.Provider>
     )
