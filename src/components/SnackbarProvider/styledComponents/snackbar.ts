@@ -1,15 +1,46 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
-import TextField from '@material-ui/core/TextField'
-import Button from '@material-ui/core/Button'
+import ErrorIcon from '@material-ui/icons/Error'
+import CheckCircleIcon from '@material-ui/icons/CheckCircle'
+import CloseIcon from '@material-ui/icons/Close'
+import SnackbarContent from '@material-ui/core/SnackbarContent'
 
-export const TextFieldStyled = styled(TextField)`
-  width: calc(100% - 88px);
-  background: ${props => props.theme.white};
-  border-radius: 4px;
+import theme from 'styling/styledComponentsTheme'
+
+export interface StyledSnackbarContentProps {
+  color: string
+}
+
+export const IconFontSize = `
+  font-size: 20px;
 `
 
-export const ButtonStyled = styled(Button)`
-  height: 55px;
-  margin: 16px 0;
+export const MainIconStyle = css`
+  ${IconFontSize}
+  opacity: 0.9;
+  margin-right: 10px;
+`
+
+export const ErrorIconStyled = styled(ErrorIcon)`
+  ${MainIconStyle}
+`
+
+export const CheckCircleIconStyled = styled(CheckCircleIcon)`
+  ${MainIconStyle}
+`
+
+export const CloseIconStyled = styled(CloseIcon)`
+  ${IconFontSize}
+`
+
+export const SnackBarContentStyled = styled(SnackbarContent)<
+  StyledSnackbarContentProps
+>`
+  background-color: ${props =>
+    props.color === 'success' ? theme.green : theme.errorRed};
+`
+
+export const MessageStyled = styled.span`
+  display: flex;
+  align-items: center;
 `

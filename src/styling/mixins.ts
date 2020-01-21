@@ -1,13 +1,8 @@
-html,
-body,
-#root {
-  height: 100%;
-}
+import { css } from 'styled-components'
 
-/* // change this one  */
-.center-content {
+export const centerContent = css`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-}
+`
