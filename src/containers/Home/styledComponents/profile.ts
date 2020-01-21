@@ -1,10 +1,6 @@
 import styled from 'styled-components'
 
-export interface StyledProfileProps {
-  className: string
-}
-
-export const ProfileStyled = styled('div')<StyledProfileProps>`
+export const ProfileStyled = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;

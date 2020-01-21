@@ -12,7 +12,7 @@ export const LoginStyled = styled(Grid)`
 
 export const LoginTitleStyled = styled(Typography)`
   font-size: 2rem;
-  padding-bottom: 10px;
+  padding-bottom: 15px;
 `
 
 export const LoginFormStyled = styled.div`

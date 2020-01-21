@@ -17,17 +17,15 @@ const Login: React.FC = () => {
   return (
     <LoginStyled container spacing={2} justify="center" alignItems="center">
       <Grid item xs={12} sm={7} md={5}>
-        <div>
-          <Background />
+        <Background />
 
-          <LoginFormStyled>
-            <PaperStyled>
-              <LoginTitleStyled variant="h2">Login</LoginTitleStyled>
+        <LoginFormStyled>
+          <PaperStyled>
+            <LoginTitleStyled variant="h2">Login</LoginTitleStyled>
 
-              <SignInGithub />
-            </PaperStyled>
-          </LoginFormStyled>
-        </div>
+            <SignInGithub />
+          </PaperStyled>
+        </LoginFormStyled>
       </Grid>
     </LoginStyled>
   )

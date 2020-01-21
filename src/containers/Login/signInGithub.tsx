@@ -30,14 +30,12 @@ const SignInGithub: React.FC<FirebaseProviderProps> = ({ firebase }) => {
   }
 
   return (
-    <div className="signin_github">
-      <form onSubmit={onSubmit}>
-        <Button type="submit" variant="contained" color="secondary">
-          <Group />
-          Sign In with Github
-        </Button>
-      </form>
-    </div>
+    <form onSubmit={onSubmit}>
+      <Button type="submit" variant="contained" color="secondary">
+        <Group />
+        Sign In with Github
+      </Button>
+    </form>
   )
 }
 
