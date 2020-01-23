@@ -5,16 +5,21 @@ import Dialog from '@material-ui/core/Dialog'
 import MuiDialogTitle from '@material-ui/core/DialogTitle'
 import MuiDialogContent from '@material-ui/core/DialogContent'
 import MuiDialogActions from '@material-ui/core/DialogActions'
-import IconButton from '@material-ui/core/IconButton'
 import CloseIcon from '@material-ui/icons/Close'
 import Typography from '@material-ui/core/Typography'
+
 import moment from 'moment'
 
-import { withFirebase, FirebaseProviderProps } from '../FirebaseProvider'
+import {
+  withFirebase,
+  FirebaseProviderProps
+} from '../../components/FirebaseProvider'
 import { snackbarContext } from 'components/SnackbarProvider'
 import { AuthUserContext } from 'components/AuthenticationProvider'
 
-export const CustomizedDialogs: React.FC<FirebaseProviderProps> = ({
+import { DeleteButtonStyled } from './styledComponents/removeAccount'
+
+export const RemoveAccount: React.FC<FirebaseProviderProps> = ({
   firebase
 }) => {
   const { logOut } = useContext(AuthUserContext)
@@ -64,7 +69,7 @@ export const CustomizedDialogs: React.FC<FirebaseProviderProps> = ({
   }
 
   return (
-    <div>
+    <React.Fragment>
       <Button
         variant="outlined"
         color="secondary"
@@ -82,9 +87,9 @@ export const CustomizedDialogs: React.FC<FirebaseProviderProps> = ({
         <MuiDialogTitle disableTypography>
           <Typography variant="h6"> Remove Account</Typography>
 
-          <IconButton aria-label="close" onClick={HandleClose}>
+          <DeleteButtonStyled aria-label="close" onClick={HandleClose}>
             <CloseIcon />
-          </IconButton>
+          </DeleteButtonStyled>
         </MuiDialogTitle>
 
         <MuiDialogContent dividers>
@@ -102,8 +107,8 @@ export const CustomizedDialogs: React.FC<FirebaseProviderProps> = ({
           </Button>
         </MuiDialogActions>
       </Dialog>
-    </div>
+    </React.Fragment>
   )
 }
 
-export default withFirebase(CustomizedDialogs)
+export default withFirebase(RemoveAccount)

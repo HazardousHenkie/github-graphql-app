@@ -31,3 +31,9 @@ export const SubTypographyStyled = styled(Typography)`
   flex-grow: 1;
   margin-bottom: 25px;
 `
+
+export const SubTypographyPaddingStyled = styled(Typography)`
+  font-size: 1rem;
+  flex-grow: 1;
+  margin: 40px 0 10px;
+`

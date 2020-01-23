@@ -231,14 +231,19 @@ const RepositoryItem: React.FC<RepositoriesProps> = ({
           {primaryLanguage !== '' && <li>Language: {primaryLanguage}</li>}
           <li>
             Owner:
-            <RepositoriesLinkStyled href={ownerUrl}>
+            <RepositoriesLinkStyled target="_blank" href={ownerUrl}>
               {ownerLogin}
             </RepositoriesLinkStyled>
           </li>
         </RepositoriesListStyled>
 
         <RepositoriesButtonsStyled>
-          <Button variant="contained" color="primary" href={url}>
+          <Button
+            variant="contained"
+            color="primary"
+            target="_blank"
+            href={url}
+          >
             Check on github
           </Button>
         </RepositoriesButtonsStyled>

@@ -4,6 +4,7 @@ import { compose } from 'recompose'
 import Grid from '@material-ui/core/Grid'
 
 import SignOutButton from './signOut'
+import RemoveAccount from './removeAccount'
 
 import Background from 'components/BackgroundImage'
 
@@ -12,7 +13,8 @@ import {
   PaperStyled,
   LogoutFormStyled,
   TypographyStyled,
-  SubTypographyStyled
+  SubTypographyStyled,
+  SubTypographyPaddingStyled
 } from './styledComponents/signOut'
 
 import { WithAuthorization } from 'components/AuthenticationProvider'
@@ -32,6 +34,12 @@ const SignOut: React.FC = () => {
             </SubTypographyStyled>
 
             <SignOutButton />
+
+            <SubTypographyPaddingStyled variant="h3">
+              You want to delete your account?
+            </SubTypographyPaddingStyled>
+
+            <RemoveAccount />
           </PaperStyled>
         </LogoutFormStyled>
       </Grid>
