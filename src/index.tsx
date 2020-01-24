@@ -3,24 +3,32 @@ import ReactDOM from 'react-dom'
 
 import App from 'containers/App/App'
 
-import 'scss/index.scss'
+import { Router } from 'react-router-dom'
+import history from 'utils/history'
+
+import CssBaseline from '@material-ui/core/CssBaseline'
+import { ThemeProvider, StylesProvider } from '@material-ui/styles'
+
+import theme from 'styling/themeStyles'
+
+import './styling/index.css'
+import 'typeface-roboto'
 
 import * as serviceWorker from 'serviceWorker'
-
-import { Provider } from 'react-redux'
-import { store, persistor } from 'redux/store'
-import { PersistGate } from 'redux-persist/integration/react'
 
 import Firebase, { FirebaseContext } from 'components/FirebaseProvider'
 
 ReactDOM.render(
-  <Provider store={store}>
-    <PersistGate loading={null} persistor={persistor}>
-      <FirebaseContext.Provider value={new Firebase()}>
-        <App />
-      </FirebaseContext.Provider>
-    </PersistGate>
-  </Provider>,
+  <FirebaseContext.Provider value={new Firebase()}>
+    <CssBaseline />
+    <Router history={history}>
+      <StylesProvider injectFirst>
+        <ThemeProvider theme={theme}>
+          <App />
+        </ThemeProvider>
+      </StylesProvider>
+    </Router>
+  </FirebaseContext.Provider>,
   document.getElementById('root')
 )
 

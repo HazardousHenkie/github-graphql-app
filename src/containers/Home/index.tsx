@@ -2,17 +2,17 @@ import React from 'react'
 import { compose } from 'recompose'
 
 import Profile from './profile'
-import Loader from 'components/ShowLoader'
+import Loader from 'components/Loader'
 import Repositories from 'components/RepositoriesList'
 
 import { WithAuthorization } from 'components/AuthenticationProvider'
 
-import ErrorMessage from 'components/ShowMessage'
+import ErrorMessage from 'components/ErrorMessage'
 
 import getCurrentUserData from 'containers/Home/queries/user'
 import { useQuery } from '@apollo/react-hooks'
 
-import './scss/home.scss'
+import { HomeStyled } from './styledComponents/home'
 
 const Home: React.FC = () => {
   const { loading, error, data, fetchMore } = useQuery(getCurrentUserData, {
@@ -27,28 +27,26 @@ const Home: React.FC = () => {
     return <Loader />
   }
 
-  const { viewer } = data
-
   const information = {
-    login: viewer.login,
-    websiteUrl: viewer.websiteUrl,
-    location: viewer.location,
-    email: viewer.email,
-    company: viewer.company,
-    bio: viewer.bio
+    login: data.viewer.login,
+    websiteUrl: data.viewer.websiteUrl,
+    location: data.viewer.location,
+    email: data.viewer.email,
+    company: data.viewer.company,
+    bio: data.viewer.bio
   }
 
   return (
-    <div className="home">
+    <HomeStyled>
       <Profile user={information} />
 
       <Repositories
         loading={loading}
         fetchMore={fetchMore}
-        repositories={viewer.repositories}
+        repositories={data.viewer.repositories}
         entry={'viewer'}
       />
-    </div>
+    </HomeStyled>
   )
 }
 

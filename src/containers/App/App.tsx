@@ -1,18 +1,21 @@
-import React from 'react'
+import React, { useContext } from 'react'
 
-import { useSelector } from 'react-redux'
+import { compose } from 'recompose'
 
-import { Router } from 'react-router-dom'
 import Routes from './routes'
-import history from 'utils/history'
 
 import Container from '@material-ui/core/Container'
-import CssBaseline from '@material-ui/core/CssBaseline'
 
-import { createMuiTheme, responsiveFontSizes } from '@material-ui/core/styles'
-import { ThemeProvider } from '@material-ui/styles'
+import { StyledApp } from './styledComponents/app'
+import theme from 'styling/styledComponentsTheme'
+import { ThemeProvider } from 'styled-components'
 
-import { WithAuthentication } from 'components/AuthenticationProvider'
+import { withSnackbar } from 'components/SnackbarProvider'
+import {
+  WithAuthentication,
+  AuthUserContext
+} from 'components/AuthenticationProvider'
+
 import MainMenu from './mainMenu'
 import Footer from './footer'
 
@@ -23,38 +26,14 @@ import { createHttpLink } from 'apollo-link-http'
 import { InMemoryCache } from 'apollo-cache-inmemory'
 import { onError } from 'apollo-link-error'
 
-let theme = createMuiTheme({
-  palette: {
-    primary: {
-      main: '#343434'
-    }
-  }
-})
-
-theme = responsiveFontSizes(theme)
-
 const App: React.FC = () => {
-  interface LoginProvider {
-    authToken: Record<string, string>
-  }
-
-  interface AuthenticatedProvider {
-    loggedIn: boolean
-  }
-
-  const authenticated = useSelector(
-    (state: Record<string, AuthenticatedProvider>) => state.user.loggedIn
-  )
-
-  const { authToken } = useSelector(
-    (state: Record<string, LoginProvider>) => state.user
-  )
+  const { authenticated, user } = useContext(AuthUserContext)
 
   const authorizationHeader =
-    authToken && authToken.oauthAccessToken
-      ? `Bearer ${authToken.oauthAccessToken}`
-      : authToken && authToken.accessToken
-      ? `Bearer ${authToken.accessToken}`
+    user && user.authToken && user.authToken.oauthAccessToken
+      ? `Bearer ${user.authToken.oauthAccessToken}`
+      : user && user.authToken && user.authToken.accessToken
+      ? `Bearer ${user.authToken.accessToken}`
       : null
 
   const httpLink = createHttpLink({
@@ -86,19 +65,17 @@ const App: React.FC = () => {
 
   return (
     <ApolloProvider client={client}>
-      <div className={`App ${authenticated ? 'App__menu' : 'App__no_menu'}`}>
-        <CssBaseline />
-        <Router history={history}>
-          <ThemeProvider theme={theme}>
-            <div className="menu">{authenticated && <MainMenu />}</div>
-            <Container fixed>
-              <Routes />
-            </Container>
-            <Footer />
-          </ThemeProvider>
-        </Router>
-      </div>
+      <ThemeProvider theme={theme}>
+        <StyledApp authenticated={authenticated}>
+          <div className="menu">{authenticated && <MainMenu />}</div>
+          <Container fixed>
+            <Routes />
+          </Container>
+          <Footer />
+        </StyledApp>
+      </ThemeProvider>
     </ApolloProvider>
   )
 }
-export default WithAuthentication(App)
+
+export default compose(withSnackbar, WithAuthentication)(App)

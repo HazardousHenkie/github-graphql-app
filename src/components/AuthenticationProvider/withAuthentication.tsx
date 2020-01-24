@@ -1,72 +1,124 @@
-import React, { useState, useEffect } from 'react'
-
-import { useSelector, useDispatch } from 'react-redux'
-import { setUser } from 'redux/actions'
-
-import { withFirebase, FirebaseProviderProps } from '../FirebaseProvider'
+import React, { useState, useEffect, useCallback, useContext } from 'react'
 
 import AuthUserContext from './context'
 
-import useSnackbarContext from '../snackbar/context'
+import { withFirebase, FirebaseProviderProps } from '../FirebaseProvider'
 
-interface ReduxProvider {
-  loggedIn: boolean
-}
+import history from 'utils/history'
+import { home, login } from 'utils/routes'
+
+import { snackbarContext } from '../SnackbarProvider'
+
+import Cookies from 'universal-cookie'
 
 const withAuthentication = <Props extends object>(
   Component: React.ComponentType<Props>
 ) => {
   const WithAuthentication: React.FC<Props & FirebaseProviderProps> = props => {
+    const cookies = new Cookies()
     const { firebase } = props
-    const dispatch = useDispatch()
-    const [authenticated, setAuthenticated] = useState(false)
-    const { loggedIn } = useSelector(
-      (state: Record<string, ReduxProvider>) => state.user
+    const [authenticated, setAuthenticated] = useState(
+      cookies.get('authenticated') ? cookies.get('authenticated') : false
     )
 
-    const { setSnackbarState } = useSnackbarContext()
+    const [user, setUser] = useState({
+      userName: cookies.get('userName') ? cookies.get('userName') : '',
+      userId: cookies.get('userId') ? cookies.get('userId') : '',
+      authToken: cookies.get('userCredential')
+        ? cookies.get('userCredential')
+        : null
+    })
+    const { setSnackbarState } = useContext(snackbarContext)
+
+    const logIn = (user: Record<string, any>) => {
+      setAuthenticated(true)
+
+      const userName =
+        user.additionalUserInfo && user.additionalUserInfo.username
+          ? user.additionalUserInfo.username
+          : ''
+      const userId = user.user ? user.user.uid : ''
+
+      setUser({
+        userName: userName,
+        userId: userId,
+        authToken: user.credential
+      })
+
+      cookies.set('userName', userName)
+      cookies.set('userId', userId)
+      cookies.set('userCredential', user.credential)
+      cookies.set('authenticated', true)
+
+      history.push(home)
+    }
+
+    const logOut = useCallback(() => {
+      setAuthenticated(false)
+
+      setUser({
+        userName: '',
+        userId: '',
+        authToken: null
+      })
+
+      setSnackbarState({
+        message: 'Logged out',
+        variant: 'error'
+      })
+
+      cookies.remove('userName')
+      cookies.remove('userId')
+      cookies.remove('userCredential')
+      cookies.remove('authenticated')
+
+      history.push(login)
+    }, [setSnackbarState, cookies])
 
     useEffect(() => {
       const listener = firebase.auth.onAuthStateChanged(authUser => {
         if (authUser) {
-          if (!loggedIn) {
-            dispatch(
-              setUser({
-                loggedIn: false,
-                userName: '',
-                userId: '',
-                authToken: null
-              })
-            )
-
-            setAuthenticated(false)
-            setSnackbarState({
-              message: 'Please login again!',
-              variant: 'error'
-            })
-          } else {
+          if (!authenticated) {
             setAuthenticated(true)
+
+            setUser({
+              userName: cookies.get('userName') ? cookies.get('userName') : '',
+              userId: cookies.get('userId') ? cookies.get('userId') : '',
+              authToken: cookies.get('userCredential')
+                ? cookies.get('userCredential')
+                : null
+            })
           }
         } else {
-          dispatch(
-            setUser({
-              loggedIn: false,
-              userName: '',
-              userId: '',
-              authToken: null
-            })
-          )
-
-          setAuthenticated(false)
+          if (authenticated) {
+            logOut()
+          } else {
+            history.push(login)
+          }
         }
       })
 
       return (): void => {
         listener()
       }
-    }, [setAuthenticated, firebase, dispatch, loggedIn, setSnackbarState])
+    }, [
+      firebase.auth,
+      authenticated,
+      setAuthenticated,
+      setUser,
+      cookies,
+      logOut
+    ])
+
+    const providingValues = {
+      authenticated,
+      user,
+      logIn,
+      logOut
+    }
+
     return (
-      <AuthUserContext.Provider value={authenticated}>
+      <AuthUserContext.Provider value={providingValues}>
         <Component {...(props as Props)} />
       </AuthUserContext.Provider>
     )

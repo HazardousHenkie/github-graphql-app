@@ -1,13 +1,20 @@
 import React from 'react'
 
-import './scss/profile.scss'
+import {
+  ProfileStyled,
+  ProfileTitleStyled,
+  ProfileDescriptionStyled,
+  ProfileIconListStyled,
+  ProfileListItemStyled,
+  ProfileListItemIconStyled
+} from './styledComponents/profile'
 
 import Email from '@material-ui/icons/Email'
 import ExitToApp from '@material-ui/icons/ExitToApp'
 import Business from '@material-ui/icons/Business'
 
 import Background from 'components/BackgroundImage'
-import ScrollTo from 'components/ScrollToHashtag'
+import ScrollTo from 'components/ScrollTo'
 
 export interface ProfileProps {
   user: Record<string, string>
@@ -15,42 +22,44 @@ export interface ProfileProps {
 
 const Profile: React.FC<ProfileProps> = ({ user }) => {
   return (
-    <div className="profile">
+    <ProfileStyled className="profile">
       <Background />
 
       <React.Fragment>
-        <h1 className="profile__title">Hello, {user.login}!</h1>
-        {user.bio && <p className="profile__description">{user.bio}</p>}
-        <ul className="profile__icon_list">
+        <ProfileTitleStyled>Hello, {user.login}!</ProfileTitleStyled>
+        {user.bio && (
+          <ProfileDescriptionStyled>{user.bio}</ProfileDescriptionStyled>
+        )}
+        <ProfileIconListStyled>
           {user.email && (
-            <li className="profile__list_item">
-              <span className="profile__icon">
+            <ProfileListItemStyled>
+              <ProfileListItemIconStyled>
                 <Email />
-              </span>
+              </ProfileListItemIconStyled>
               {user.email}
-            </li>
+            </ProfileListItemStyled>
           )}
           {user.company && (
-            <li className="profile__list_item">
-              <span className="profile__icon">
+            <ProfileListItemStyled>
+              <ProfileListItemIconStyled>
                 <Business />
-              </span>
+              </ProfileListItemIconStyled>
               {user.company}
-            </li>
+            </ProfileListItemStyled>
           )}
           {user.websiteUrl && (
-            <li className="profile__list_item">
-              <span className="profile__icon">
+            <ProfileListItemStyled>
+              <ProfileListItemIconStyled>
                 <ExitToApp />
-              </span>
+              </ProfileListItemIconStyled>
               {user.websiteUrl}
-            </li>
+            </ProfileListItemStyled>
           )}
-        </ul>
+        </ProfileIconListStyled>
       </React.Fragment>
 
       <ScrollTo scrollTo="repositories" />
-    </div>
+    </ProfileStyled>
   )
 }
 

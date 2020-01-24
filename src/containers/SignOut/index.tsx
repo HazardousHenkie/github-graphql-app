@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { compose } from 'recompose'
 
 import Paper from '@material-ui/core/Paper'
@@ -6,11 +6,12 @@ import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
 
-import { useSelector } from 'react-redux'
-
 import SignOutButton from './signOut'
 
-import { WithAuthorization } from 'components/AuthenticationProvider'
+import {
+  WithAuthorization,
+  AuthUserContext
+} from 'components/AuthenticationProvider'
 
 const useStyles = makeStyles(theme => ({
   rootPaper: {
@@ -30,9 +31,7 @@ interface ReduxProvider {
 }
 
 const SignOut: React.FC = () => {
-  const authenticated = useSelector(
-    (state: Record<string, ReduxProvider>) => state.user.loggedIn
-  )
+  const { authenticated } = useContext(AuthUserContext)
   const classes = useStyles()
 
   return (

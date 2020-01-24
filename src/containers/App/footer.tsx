@@ -2,21 +2,19 @@ import React from 'react'
 
 import Grid from '@material-ui/core/Grid'
 
-import moment from 'moment'
+import { StyledFooter } from './styledComponents/footer'
 
-import './scss/footer.scss'
+import moment from 'moment'
 
 const Footer: React.FC = () => {
   return (
-    <footer className="footer">
+    <StyledFooter>
       <Grid container justify="center" spacing={0}>
         <Grid item>
-          <div className="footer__copyright">
-            {`Kyle @ ${moment().format('YYYY')} - Github GraphQL project`}
-          </div>
+          {`Kyle @ ${moment().format('YYYY')} - Github GraphQL project`}
         </Grid>
       </Grid>
-    </footer>
+    </StyledFooter>
   )
 }
 

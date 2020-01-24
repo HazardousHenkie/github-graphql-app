@@ -1,12 +1,14 @@
 import React from 'react'
 import RepositoryItem from './repositoryItem'
 
-import './scss/repositories.scss'
+import {
+  RepositoriesStyled,
+  RepositoriesTitleStyled
+} from './styledComponents/repositories'
 
 import Grid from '@material-ui/core/Grid'
-import Typography from '@material-ui/core/Typography'
 
-import FetchMore from '../FetchRepositories'
+import FetchMore from '../FetchMore'
 
 interface RepositoriesProps {
   loading: boolean
@@ -65,18 +67,17 @@ const Repositories: React.FC<RepositoriesProps> = ({
   }
 
   return (
-    <Grid
+    <RepositoriesStyled
       id="repositories"
-      className="repositories"
       container
       alignItems="stretch"
       justify="center"
       spacing={2}
     >
       <Grid item xs={12}>
-        <Typography className="repositories__title" variant="h3" component="h2">
+        <RepositoriesTitleStyled variant="h3">
           Repositories
-        </Typography>
+        </RepositoriesTitleStyled>
       </Grid>
       {repositories.edges.map(({ node }: Record<string, any>) => (
         <Grid item xs={12} sm={6} md={4} key={node.id}>
@@ -111,7 +112,7 @@ const Repositories: React.FC<RepositoriesProps> = ({
           Repositories
         </FetchMore>
       </Grid>
-    </Grid>
+    </RepositoriesStyled>
   )
 }
 

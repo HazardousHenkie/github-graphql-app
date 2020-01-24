@@ -1,5 +1,4 @@
-import React from 'react'
-import { useDispatch } from 'react-redux'
+import React, { useContext } from 'react'
 
 import { withStyles, Theme, makeStyles } from '@material-ui/core/styles'
 
@@ -12,9 +11,10 @@ import IconButton from '@material-ui/core/IconButton'
 import CloseIcon from '@material-ui/icons/Close'
 import Typography from '@material-ui/core/Typography'
 import moment from 'moment'
-import { setUser } from 'redux/actions'
+
 import { withFirebase, FirebaseProviderProps } from '../FirebaseProvider'
-import useSnackbarContext from '../snackbar/context'
+import { snackbarContext } from 'components/SnackbarProvider'
+import { AuthUserContext } from 'components/AuthenticationProvider'
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -45,9 +45,9 @@ const DialogActions = withStyles(theme => ({
 export const CustomizedDialogs: React.FC<FirebaseProviderProps> = ({
   firebase
 }) => {
-  const dispatch = useDispatch()
+  const { logOut } = useContext(AuthUserContext)
   const [open, setOpen] = React.useState(false)
-  const { setSnackbarState } = useSnackbarContext()
+  const { setSnackbarState } = useContext(snackbarContext)
   const classes = useStyles()
 
   const HandleClickOpen = (): void => {
@@ -79,14 +79,7 @@ export const CustomizedDialogs: React.FC<FirebaseProviderProps> = ({
         firebase.auth.currentUser
           .delete()
           .then(() => {
-            dispatch(
-              setUser({
-                loggedIn: false,
-                userName: '',
-                userId: '',
-                authToken: null
-              })
-            )
+            logOut()
             setSnackbarState({
               message: 'Account was deleted!',
               variant: 'error'

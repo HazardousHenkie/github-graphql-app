@@ -1,9 +1,9 @@
 import React from 'react'
 
-import './background.scss'
+import { BackgroundStyled } from './styledComponents/background'
 
 const Background: React.FC = () => {
-  return <div className="background"></div>
+  return <BackgroundStyled></BackgroundStyled>
 }
 
 export default React.memo(Background)
