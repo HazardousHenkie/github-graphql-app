@@ -10,6 +10,8 @@ import Grid from '@material-ui/core/Grid'
 
 import FetchMore from '../FetchMore'
 
+import { repositoriesString } from 'utils/strings'
+
 interface RepositoriesProps {
   loading: boolean
   repositories: {
@@ -76,7 +78,7 @@ const Repositories: React.FC<RepositoriesProps> = ({
     >
       <Grid item xs={12}>
         <RepositoriesTitleStyled variant="h3">
-          Repositories
+          {repositoriesString}
         </RepositoriesTitleStyled>
       </Grid>
       {repositories.edges.map(({ node }: Record<string, any>) => (
@@ -109,7 +111,7 @@ const Repositories: React.FC<RepositoriesProps> = ({
           updateQuery={updateQuery(entry)}
           fetchMore={fetchMore}
         >
-          Repositories
+          {repositoriesString}
         </FetchMore>
       </Grid>
     </RepositoriesStyled>

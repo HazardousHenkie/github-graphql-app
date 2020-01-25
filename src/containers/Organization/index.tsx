@@ -8,8 +8,9 @@ import InfoMessage from 'components/InformationMessage'
 
 import { WithAuthorization } from 'components/AuthenticationProvider'
 import Background from 'components/BackgroundImage'
-
 import ErrorMessage from 'components/ErrorMessage'
+
+import { oAuthMessage, noOrganizationError } from 'utils/strings'
 
 import getRepositoriesForOrganization from './queries/organization'
 import { useQuery } from '@apollo/react-hooks'
@@ -35,13 +36,11 @@ const Organization: React.FC = () => {
       <Background />
 
       <OrganizationStyled>
-        <InfoMessage infoMessage="Only OAuth Apps you authorized in your Github account can be searched for." />
+        <InfoMessage infoMessage={oAuthMessage} />
 
         <Search setSearch={setSearch} />
 
-        {noOrganization && (
-          <ErrorMessage errorMessage="No organization filled in." />
-        )}
+        {noOrganization && <ErrorMessage errorMessage={noOrganizationError} />}
 
         {error && <ErrorMessage errorMessage={error.toString()} />}
 

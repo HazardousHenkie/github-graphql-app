@@ -2,6 +2,8 @@ import React from 'react'
 
 import Typography from '@material-ui/core/Typography'
 
+import { notFoundError } from 'utils/strings'
+
 import { ErrorPageDiv, StyledTypographyTitle } from './styledComponents/error'
 
 interface ErrorInterface {
@@ -11,7 +13,7 @@ interface ErrorInterface {
 
 const ErrorPage: React.FC<ErrorInterface> = ({
   errorCode = 404,
-  errorMessage = "Page wasn't found"
+  errorMessage = notFoundError
 }) => {
   return (
     <ErrorPageDiv>

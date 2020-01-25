@@ -3,6 +3,8 @@ import React, { useContext } from 'react'
 import Button from '@material-ui/core/Button'
 import Group from '@material-ui/icons/Group'
 
+import { signinGithub } from 'utils/strings'
+
 import {
   withFirebase,
   FirebaseProviderProps
@@ -33,7 +35,7 @@ const SignInGithub: React.FC<FirebaseProviderProps> = ({ firebase }) => {
     <form onSubmit={onSubmit}>
       <Button type="submit" variant="contained" color="secondary">
         <Group />
-        Sign In with Github
+        {signinGithub}
       </Button>
     </form>
   )

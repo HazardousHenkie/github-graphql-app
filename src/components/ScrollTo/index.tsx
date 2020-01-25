@@ -6,6 +6,8 @@ import {
   ScrollToTextStyled
 } from './styledComponents/scrollTo'
 
+import { scroll } from 'utils/strings'
+
 interface ScrollToProps {
   scrollTo: string
 }
@@ -14,7 +16,7 @@ const ScrollTo: React.FC<ScrollToProps> = ({ scrollTo }) => {
   return (
     <ScrollToStyled activeClass="active" smooth={true} to={scrollTo}>
       <ScrollToMouseStyled />
-      <ScrollToTextStyled>Scroll</ScrollToTextStyled>
+      <ScrollToTextStyled>{scroll}</ScrollToTextStyled>
     </ScrollToStyled>
   )
 }

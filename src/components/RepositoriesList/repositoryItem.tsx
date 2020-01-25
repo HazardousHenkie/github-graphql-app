@@ -16,6 +16,15 @@ import StarIcon from '@material-ui/icons/Star'
 import VisibilityIcon from '@material-ui/icons/Visibility'
 
 import {
+  star,
+  unstar,
+  watch,
+  unwatch,
+  owner,
+  checkOnGithub
+} from 'utils/strings'
+
+import {
   RepositoryCardStyled,
   RepositoriesTitleStyled,
   RepositoriesButtonsStyled,
@@ -199,7 +208,7 @@ const RepositoryItem: React.FC<RepositoriesProps> = ({
             startIcon={<VisibilityIcon />}
             onClick={() => watchRepositoryWrapper()}
           >
-            {isWatch(viewerSubscription) ? 'Unwatch' : 'Watch'} {watchers}
+            {isWatch(viewerSubscription) ? unwatch : watch} {watchers}
           </RepositoriesButtonStyled>
 
           {!viewerHasStarred ? (
@@ -209,7 +218,7 @@ const RepositoryItem: React.FC<RepositoriesProps> = ({
               onClick={() => addStarWrapper()}
               startIcon={<StarIcon />}
             >
-              Star {stargazers}
+              {star} {stargazers}
             </RepositoriesButtonStyled>
           ) : (
             <RepositoriesButtonStyled
@@ -218,7 +227,7 @@ const RepositoryItem: React.FC<RepositoriesProps> = ({
               onClick={() => removeStarWrapper()}
               startIcon={<StarIcon />}
             >
-              Unstar {stargazers}
+              {unstar} {stargazers}
             </RepositoriesButtonStyled>
           )}
         </RepositoriesButtonsStyled>
@@ -230,7 +239,7 @@ const RepositoryItem: React.FC<RepositoriesProps> = ({
         <RepositoriesListStyled>
           {primaryLanguage !== '' && <li>Language: {primaryLanguage}</li>}
           <li>
-            Owner:
+            {owner}
             <RepositoriesLinkStyled target="_blank" href={ownerUrl}>
               {ownerLogin}
             </RepositoriesLinkStyled>
@@ -244,7 +253,7 @@ const RepositoryItem: React.FC<RepositoriesProps> = ({
             target="_blank"
             href={url}
           >
-            Check on github
+            {checkOnGithub}
           </Button>
         </RepositoriesButtonsStyled>
       </CardContent>

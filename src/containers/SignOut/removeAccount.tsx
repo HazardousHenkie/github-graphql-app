@@ -11,6 +11,15 @@ import Typography from '@material-ui/core/Typography'
 import moment from 'moment'
 
 import {
+  logoutBeforeRemoving,
+  removeMessage,
+  deleteAccount,
+  removeAccount,
+  removeAccountConfirmation,
+  cancel
+} from 'utils/strings'
+
+import {
   withFirebase,
   FirebaseProviderProps
 } from '../../components/FirebaseProvider'
@@ -47,7 +56,7 @@ export const RemoveAccount: React.FC<FirebaseProviderProps> = ({
 
     if (lastLogin && lastLogin.isBefore(currentDateMinusOneMinute)) {
       setSnackbarState({
-        message: 'To remove your account you need to sign out and login again.',
+        message: logoutBeforeRemoving,
         variant: 'error'
       })
     } else {
@@ -57,7 +66,7 @@ export const RemoveAccount: React.FC<FirebaseProviderProps> = ({
           .then(() => {
             logOut()
             setSnackbarState({
-              message: 'Account was deleted!',
+              message: removeMessage,
               variant: 'error'
             })
           })
@@ -73,19 +82,15 @@ export const RemoveAccount: React.FC<FirebaseProviderProps> = ({
       <Button
         variant="outlined"
         color="secondary"
-        aria-label="Delete Account"
+        aria-label={deleteAccount}
         onClick={HandleClickOpen}
       >
-        Delete Account
+        {deleteAccount}
       </Button>
 
-      <Dialog
-        onClose={HandleClose}
-        aria-labelledby="delete account"
-        open={open}
-      >
+      <Dialog onClose={HandleClose} aria-labelledby={deleteAccount} open={open}>
         <MuiDialogTitle disableTypography>
-          <Typography variant="h6"> Remove Account</Typography>
+          <Typography variant="h6">{removeAccount}</Typography>
 
           <DeleteButtonStyled aria-label="close" onClick={HandleClose}>
             <CloseIcon />
@@ -93,17 +98,15 @@ export const RemoveAccount: React.FC<FirebaseProviderProps> = ({
         </MuiDialogTitle>
 
         <MuiDialogContent dividers>
-          <Typography gutterBottom>
-            Are you sure you want to delete your account and all your data?
-          </Typography>
+          <Typography gutterBottom>{removeAccountConfirmation}</Typography>
         </MuiDialogContent>
         <MuiDialogActions>
           <Button onClick={HandleClose} color="primary">
-            Cancel
+            {cancel}
           </Button>
 
           <Button onClick={HandleDelete} color="secondary">
-            Delete Account
+            {deleteAccount}
           </Button>
         </MuiDialogActions>
       </Dialog>

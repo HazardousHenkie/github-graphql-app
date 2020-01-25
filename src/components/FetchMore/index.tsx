@@ -2,6 +2,8 @@ import React from 'react'
 import Button from '@material-ui/core/Button'
 import Loader from 'components/Loader'
 
+import { more } from 'utils/strings'
+
 interface FetchMoreProps {
   loading: boolean
   hasNextPage: boolean
@@ -29,7 +31,7 @@ const FetchMore: React.FC<FetchMoreProps> = ({
           color="secondary"
           onClick={() => fetchMore({ variables, updateQuery })}
         >
-          More {children}
+          {more} {children}
         </Button>
       )
     )}

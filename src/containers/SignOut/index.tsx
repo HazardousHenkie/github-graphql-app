@@ -7,7 +7,6 @@ import SignOutButton from './signOut'
 import RemoveAccount from './removeAccount'
 
 import Background from 'components/BackgroundImage'
-
 import {
   LogoutStyled,
   PaperStyled,
@@ -16,8 +15,9 @@ import {
   SubTypographyStyled,
   SubTypographyPaddingStyled
 } from './styledComponents/signOut'
-
 import { WithAuthorization } from 'components/AuthenticationProvider'
+
+import { removeAccountConfirmation, signOutConfirmation } from 'utils/strings'
 
 const SignOut: React.FC = () => {
   return (
@@ -30,13 +30,13 @@ const SignOut: React.FC = () => {
             <TypographyStyled variant="h2">Log out</TypographyStyled>
 
             <SubTypographyStyled variant="h3">
-              Are you sure you want to sign out?
+              {signOutConfirmation}
             </SubTypographyStyled>
 
             <SignOutButton />
 
             <SubTypographyPaddingStyled variant="h3">
-              You want to delete your account?
+              {removeAccountConfirmation}
             </SubTypographyPaddingStyled>
 
             <RemoveAccount />

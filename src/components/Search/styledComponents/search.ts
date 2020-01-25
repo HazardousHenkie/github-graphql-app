@@ -5,8 +5,11 @@ import Button from '@material-ui/core/Button'
 
 export const TextFieldStyled = styled(TextField)`
   width: calc(100% - 88px);
-  background: ${props => props.theme.white};
-  border-radius: 4px;
+
+  input {
+    background: ${props => props.theme.white};
+    border-radius: 4px;
+  }
 `
 
 export const ButtonStyled = styled(Button)`

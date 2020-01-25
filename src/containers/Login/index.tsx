@@ -6,6 +6,8 @@ import Background from 'components/BackgroundImage'
 
 import SignInGithub from './signInGithub'
 
+import { login } from 'utils/strings'
+
 import {
   LoginStyled,
   LoginTitleStyled,
@@ -21,7 +23,7 @@ const Login: React.FC = () => {
 
         <LoginFormStyled>
           <PaperStyled>
-            <LoginTitleStyled variant="h2">Login</LoginTitleStyled>
+            <LoginTitleStyled variant="h2">{login}</LoginTitleStyled>
 
             <SignInGithub />
           </PaperStyled>
