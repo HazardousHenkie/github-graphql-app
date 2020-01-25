@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { compose } from 'recompose'
 
-import Search from 'components/SearchFor/search'
+import Search from 'components/Search'
 import Loader from 'components/Loader'
 import Repositories from 'components/RepositoriesList'
 import InfoMessage from 'components/InformationMessage'

@@ -1,61 +1,30 @@
 import React, { useContext } from 'react'
 
-import CloseIcon from '@material-ui/icons/Close'
-import { green } from '@material-ui/core/colors'
 import IconButton from '@material-ui/core/IconButton'
-import ErrorIcon from '@material-ui/icons/Error'
-import CheckCircleIcon from '@material-ui/icons/CheckCircle'
 import Snackbar from '@material-ui/core/Snackbar'
-import SnackbarContent from '@material-ui/core/SnackbarContent'
-import { makeStyles } from '@material-ui/core/styles'
 
-import clsx from 'clsx'
+import {
+  CheckCircleIconStyled,
+  ErrorIconStyled,
+  MessageStyled,
+  SnackBarContentStyled,
+  CloseIconStyled
+} from './styledComponents/snackbar'
 
 import snackbarContext from './context'
 
-const useStyles = makeStyles(theme => ({
-  success: {
-    backgroundColor: green[600]
-  },
-  error: {
-    backgroundColor: theme.palette.error.dark
-  },
-  icon: {
-    fontSize: 20
-  },
-  iconVariant: {
-    opacity: 0.9,
-    marginRight: theme.spacing(1)
-  },
-  message: {
-    display: 'flex',
-    alignItems: 'center'
-  }
-}))
-
 const CustomSnackbar: React.FC = () => {
-  const classes = useStyles()
   const { snackbarState, setSnackbarState } = useContext(snackbarContext)
 
-  let icon
-  let iconClass
-
-  if (snackbarState.variant === 'success') {
-    icon = (
-      <CheckCircleIcon className={clsx(classes.icon, classes.iconVariant)} />
-    )
-
-    iconClass = classes.success
-  } else if (snackbarState.variant === 'error') {
-    icon = <ErrorIcon className={clsx(classes.icon, classes.iconVariant)} />
-    iconClass = classes.error
-  }
-
   const message = (
-    <span id="client-snackbar" className={classes.message}>
-      {icon}
+    <MessageStyled>
+      {snackbarState.variant === 'success' ? (
+        <CheckCircleIconStyled />
+      ) : (
+        <ErrorIconStyled />
+      )}
       {snackbarState.message}
-    </span>
+    </MessageStyled>
   )
 
   const handleClose = (): void => {
@@ -72,8 +41,8 @@ const CustomSnackbar: React.FC = () => {
       autoHideDuration={6000}
       onClose={handleClose}
     >
-      <SnackbarContent
-        className={iconClass}
+      <SnackBarContentStyled
+        color={snackbarState.variant}
         message={message}
         action={[
           <IconButton
@@ -82,7 +51,7 @@ const CustomSnackbar: React.FC = () => {
             color="inherit"
             onClick={handleClose}
           >
-            <CloseIcon className={classes.icon} />
+            <CloseIconStyled />
           </IconButton>
         ]}
       />

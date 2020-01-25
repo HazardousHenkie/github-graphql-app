@@ -11,7 +11,7 @@ import { ThemeProvider, StylesProvider } from '@material-ui/styles'
 
 import theme from 'styling/themeStyles'
 
-import './styling/index.css'
+import GlobalStyle from './styling/index'
 import 'typeface-roboto'
 
 import * as serviceWorker from 'serviceWorker'
@@ -20,6 +20,7 @@ import Firebase, { FirebaseContext } from 'components/FirebaseProvider'
 
 ReactDOM.render(
   <FirebaseContext.Provider value={new Firebase()}>
+    <GlobalStyle />
     <CssBaseline />
     <Router history={history}>
       <StylesProvider injectFirst>
