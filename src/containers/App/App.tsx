@@ -25,9 +25,10 @@ import { ApolloLink } from 'apollo-link'
 import { createHttpLink } from 'apollo-link-http'
 import { InMemoryCache } from 'apollo-cache-inmemory'
 import { onError } from 'apollo-link-error'
+import { logoutBeforeRemoving } from 'utils/strings'
 
 const App: React.FC = () => {
-  const { authenticated, user } = useContext(AuthUserContext)
+  const { authenticated, user, logOut } = useContext(AuthUserContext)
 
   const authorizationHeader =
     user && user.authToken && user.authToken.oauthAccessToken
@@ -53,6 +54,7 @@ const App: React.FC = () => {
     }
     if (networkError) {
       return console.log(`[Network error]: ${networkError}`)
+      logOut()
     }
   })
 

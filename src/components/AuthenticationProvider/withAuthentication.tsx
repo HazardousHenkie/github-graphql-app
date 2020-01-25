@@ -79,15 +79,23 @@ const withAuthentication = <Props extends object>(
       const listener = firebase.auth.onAuthStateChanged(authUser => {
         if (authUser) {
           if (!authenticated) {
-            setAuthenticated(true)
+            if (
+              cookies.get('userName') &&
+              cookies.get('userId') &&
+              cookies.get('userCredential')
+            ) {
+              setAuthenticated(true)
 
-            setUser({
-              userName: cookies.get('userName') ? cookies.get('userName') : '',
-              userId: cookies.get('userId') ? cookies.get('userId') : '',
-              authToken: cookies.get('userCredential')
-                ? cookies.get('userCredential')
-                : null
-            })
+              setUser({
+                userName: cookies.get('userName'),
+                userId: cookies.get('userId'),
+                authToken: cookies.get('userCredential')
+              })
+            } else {
+              setAuthenticated(false)
+
+              history.push(login)
+            }
           }
         } else {
           if (authenticated) {

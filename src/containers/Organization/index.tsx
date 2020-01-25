@@ -34,7 +34,6 @@ const Organization: React.FC = () => {
   return (
     <React.Fragment>
       <Background />
-
       <OrganizationStyled>
         <InfoMessage infoMessage={oAuthMessage} />
 
@@ -43,18 +42,17 @@ const Organization: React.FC = () => {
         {noOrganization && <ErrorMessage errorMessage={noOrganizationError} />}
 
         {error && <ErrorMessage errorMessage={error.toString()} />}
-
-        {loading && !data && <Loader />}
-
-        {!loading && !error && data && !noOrganization && (
-          <Repositories
-            loading={loading}
-            fetchMore={fetchMore}
-            repositories={data.organization.repositories}
-            entry={'organization'}
-          />
-        )}
       </OrganizationStyled>
+      loading && !data
+      {loading && <Loader />}
+      {!loading && !error && data && !noOrganization && (
+        <Repositories
+          loading={loading}
+          fetchMore={fetchMore}
+          repositories={data.organization.repositories}
+          entry={'organization'}
+        />
+      )}
     </React.Fragment>
   )
 }
