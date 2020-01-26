@@ -92,9 +92,7 @@ const withAuthentication = <Props extends object>(
                 authToken: cookies.get('userCredential')
               })
             } else {
-              setAuthenticated(false)
-
-              history.push(login)
+              logOut()
             }
           }
         } else {

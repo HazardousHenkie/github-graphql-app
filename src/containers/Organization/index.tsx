@@ -43,16 +43,17 @@ const Organization: React.FC = () => {
 
         {error && <ErrorMessage errorMessage={error.toString()} />}
       </OrganizationStyled>
-      loading && !data
-      {loading && <Loader />}
-      {!loading && !error && data && !noOrganization && (
-        <Repositories
-          loading={loading}
-          fetchMore={fetchMore}
-          repositories={data.organization.repositories}
-          entry={'organization'}
-        />
-      )}
+      <div>
+        {loading && <Loader />}
+        {!loading && !error && data && !noOrganization && (
+          <Repositories
+            loading={loading}
+            fetchMore={fetchMore}
+            repositories={data.organization.repositories}
+            entry={'organization'}
+          />
+        )}
+      </div>
     </React.Fragment>
   )
 }
