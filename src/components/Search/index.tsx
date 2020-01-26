@@ -3,7 +3,11 @@ import React from 'react'
 import { Formik } from 'formik'
 import * as Yup from 'yup'
 
-import { TextFieldStyled, ButtonStyled } from './styledComponents/search'
+import {
+  FormStyled,
+  TextFieldStyled,
+  ButtonStyled
+} from './styledComponents/search'
 
 import { search, searchfieldLabel } from 'utils/strings'
 
@@ -24,6 +28,7 @@ const Search: React.FC<SearchProps> = ({ setSearch }) => {
         const { searchfield } = values
 
         setSearch(searchfield)
+
         setSubmitting(false)
       }}
     >
@@ -37,7 +42,7 @@ const Search: React.FC<SearchProps> = ({ setSearch }) => {
         handleSubmit,
         touched
       }) => (
-        <form onSubmit={handleSubmit}>
+        <FormStyled onSubmit={handleSubmit}>
           <TextFieldStyled
             error={errors.searchfield ? true : false}
             label={searchfieldLabel}
@@ -61,7 +66,7 @@ const Search: React.FC<SearchProps> = ({ setSearch }) => {
           >
             {search}
           </ButtonStyled>
-        </form>
+        </FormStyled>
       )}
     </Formik>
   )

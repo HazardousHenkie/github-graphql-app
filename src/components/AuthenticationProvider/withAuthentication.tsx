@@ -92,7 +92,9 @@ const withAuthentication = <Props extends object>(
                 authToken: cookies.get('userCredential')
               })
             } else {
-              logOut()
+              if (authenticated) {
+                logOut()
+              }
             }
           }
         } else {

@@ -9,6 +9,7 @@ import InfoMessage from 'components/InformationMessage'
 import { WithAuthorization } from 'components/AuthenticationProvider'
 import Background from 'components/BackgroundImage'
 import ErrorMessage from 'components/ErrorMessage'
+import ScrollTo from 'components/ScrollTo'
 
 import { oAuthMessage, noOrganizationError } from 'utils/strings'
 
@@ -34,7 +35,13 @@ const Organization: React.FC = () => {
   return (
     <React.Fragment>
       <Background />
-      <OrganizationStyled>
+      <OrganizationStyled
+        compact={
+          data && data.organization && data.organization.repositories
+            ? true
+            : false
+        }
+      >
         <InfoMessage infoMessage={oAuthMessage} />
 
         <Search setSearch={setSearch} />
@@ -42,10 +49,13 @@ const Organization: React.FC = () => {
         {noOrganization && <ErrorMessage errorMessage={noOrganizationError} />}
 
         {error && <ErrorMessage errorMessage={error.toString()} />}
+
+        {data && <ScrollTo scrollTo="repositories" />}
       </OrganizationStyled>
       <div>
         {loading && <Loader />}
-        {!loading && !error && data && !noOrganization && (
+
+        {data && !noOrganization && (
           <Repositories
             loading={loading}
             fetchMore={fetchMore}

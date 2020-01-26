@@ -1,12 +1,17 @@
 import styled from 'styled-components'
 
-export const OrganizationStyled = styled.div`
+export interface OrganizationStyledProps {
+  compact: boolean
+}
+
+export const OrganizationStyled = styled.div<OrganizationStyledProps>`
   margin-top: -74px;
+  margin-bottom: ${props => (props.compact ? '0;' : '-80px;')}
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
   height: 100vh;
-  max-height: 100%;
   position: relative;
   z-index: 2;
 `
