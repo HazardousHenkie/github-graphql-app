@@ -1,5 +1,4 @@
 import React from 'react'
-import { compose } from 'recompose'
 
 import Grid from '@material-ui/core/Grid'
 
@@ -47,4 +46,4 @@ const SignOut: React.FC = () => {
   )
 }
 
-export default compose(React.memo, WithAuthorization)(SignOut)
+export default WithAuthorization(SignOut)

@@ -79,4 +79,4 @@ const App: React.FC = () => {
   )
 }
 
-export default compose(withSnackbar, WithAuthentication)(App)
+export default compose(withSnackbar, React.memo, WithAuthentication)(App)

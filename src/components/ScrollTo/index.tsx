@@ -21,4 +21,4 @@ const ScrollTo: React.FC<ScrollToProps> = ({ scrollTo }) => {
   )
 }
 
-export default React.memo(ScrollTo)
+export default ScrollTo
