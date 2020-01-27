@@ -19,7 +19,7 @@ export const removeAccountConfirmation =
   'Are you sure you want to delete your account and all your data?'
 export const signOutConfirmation = 'Are you sure you want to sign out?'
 export const oAuthMessage =
-  'Only OAuth Apps you authorized in your Github account can be searched for.'
+  'Only organization accounts which are public can be searched for.'
 export const noOrganizationError = 'No organization filled in.'
 export const notFoundError = "Page wasn't found"
 export const footerMessageFirst = 'Kyle @'

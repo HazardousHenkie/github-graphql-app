@@ -22,7 +22,15 @@ export const RepositoriesButtonsStyled = styled.div`
 `
 
 export const RepositoriesButtonStyled = styled(Button)`
-  margin-right: 15px;
+  margin-right: 8px;
+  font-size: 0.75rem;
+  line-height: 1rem;
+
+  @media (${props => props.theme.breakpoints.up.sm}) {
+    margin-right: 15px;
+    font-size: 0.875rem;
+    line-height: 1rem;
+  }
 
   &:last-child {
     margin-right: 0;
