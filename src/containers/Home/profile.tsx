@@ -22,7 +22,7 @@ export interface ProfileProps {
 
 const Profile: React.FC<ProfileProps> = ({ user }) => {
   return (
-    <ProfileStyled className="profile">
+    <ProfileStyled>
       <Background />
 
       <React.Fragment>

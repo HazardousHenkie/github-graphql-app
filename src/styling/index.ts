@@ -9,11 +9,3 @@ const GlobalStyle = createGlobalStyle`
 `
 
 export default GlobalStyle
-
-/* // change this one  */
-/* .center-content {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-} */
