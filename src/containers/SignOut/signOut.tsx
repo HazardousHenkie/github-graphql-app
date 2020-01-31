@@ -6,6 +6,8 @@ import {
   FirebaseProviderProps
 } from 'components/FirebaseProvider'
 
+import { signOutString, signOutError } from 'utils/strings'
+
 import { snackbarContext } from 'components/SnackbarProvider'
 import { AuthUserContext } from 'components/AuthenticationProvider'
 
@@ -23,15 +25,15 @@ export const SignOutButton: React.FC<FirebaseProviderProps> = ({
         logOut()
       },
       error => {
-        setSnackbarState({ message: 'Sign Out Error', variant: 'error' })
-        error('Sign Out Error', error)
+        setSnackbarState({ message: signOutError, variant: 'error' })
+        error(signOutError, error)
       }
     )
   }
 
   return (
     <Button onClick={handleClick} variant="contained" color="secondary">
-      Sign Out
+      {signOutString}
     </Button>
   )
 }

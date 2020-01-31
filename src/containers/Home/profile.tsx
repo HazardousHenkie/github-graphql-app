@@ -13,6 +13,8 @@ import Email from '@material-ui/icons/Email'
 import ExitToApp from '@material-ui/icons/ExitToApp'
 import Business from '@material-ui/icons/Business'
 
+import { helloMessage } from 'utils/strings'
+
 import Background from 'components/BackgroundImage'
 import ScrollTo from 'components/ScrollTo'
 
@@ -26,7 +28,10 @@ const Profile: React.FC<ProfileProps> = ({ user }) => {
       <Background />
 
       <React.Fragment>
-        <ProfileTitleStyled>Hello, {user.login}!</ProfileTitleStyled>
+        <ProfileTitleStyled>
+          {helloMessage}
+          {user.login}!
+        </ProfileTitleStyled>
         {user.bio && (
           <ProfileDescriptionStyled>{user.bio}</ProfileDescriptionStyled>
         )}

@@ -5,6 +5,8 @@ import * as Yup from 'yup'
 
 import { TextFieldStyled, ButtonStyled } from './styledComponents/search'
 
+import { search, searchfieldLabel } from 'utils/strings'
+
 const SearchScheme = Yup.object().shape({
   searchfield: Yup.string().required('Required')
 })
@@ -37,7 +39,8 @@ const Search: React.FC<SearchProps> = ({ setSearch }) => {
       }) => (
         <form onSubmit={handleSubmit}>
           <TextFieldStyled
-            label="searchfield"
+            error={errors.searchfield ? true : false}
+            label={searchfieldLabel}
             name="searchfield"
             value={values.searchfield}
             onChange={handleChange}
@@ -45,7 +48,7 @@ const Search: React.FC<SearchProps> = ({ setSearch }) => {
             helperText={
               errors.searchfield && touched.searchfield && errors.searchfield
             }
-            variant="outlined"
+            variant="filled"
             fullWidth
             margin="normal"
           />
@@ -56,7 +59,7 @@ const Search: React.FC<SearchProps> = ({ setSearch }) => {
             color="secondary"
             disabled={isSubmitting || !isValid}
           >
-            Search
+            {search}
           </ButtonStyled>
         </form>
       )}
