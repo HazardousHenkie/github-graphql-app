@@ -11,7 +11,7 @@ export const LoginStyled = styled(Grid)`
 `
 
 export const LoginTitleStyled = styled(Typography)`
-  font-size: 2rem;
+  font-size: 1.75rem;
   padding-bottom: 15px;
 `
 

@@ -17,7 +17,7 @@ interface RepositoriesProps {
   repositories: {
     edges: [
       {
-        id: any
+        id: number
         owner: Record<string, string>
         ownerUrl: string
         description: string

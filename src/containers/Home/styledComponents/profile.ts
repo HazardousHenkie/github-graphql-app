@@ -13,9 +13,15 @@ export const ProfileTitleStyled = styled.h1`
   font-family: 'Open Sans', sans-serif;
   color: ${props => props.theme.white};
   text-shadow: 0px 1px 1px ${props => props.theme.blackShadow};
-  font-size: 3.5rem;
+  font-size: 2rem;
   margin: 0 0 0.875rem;
   z-index: 1;
+  text-align: center;
+  word-break: break-all;
+
+  @media (${props => props.theme.breakpoints.up.sm}) {
+    font-size: 3.5rem;
+  }
 `
 
 export const ProfileDescriptionStyled = styled.p`
@@ -27,9 +33,14 @@ export const ProfileDescriptionStyled = styled.p`
 `
 export const ProfileIconListStyled = styled.ul`
   display: flex;
+  flex-direction: column;
   padding: 0;
   list-style: none;
   z-index: 1;
+
+  @media (${props => props.theme.breakpoints.up.sm}) {
+    flex-direction: row;
+  }
 `
 
 export const ProfileListItemStyled = styled.li`

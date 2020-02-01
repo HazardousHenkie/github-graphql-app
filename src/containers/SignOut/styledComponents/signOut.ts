@@ -7,7 +7,7 @@ import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
 
 export const LogoutStyled = styled(Grid)`
-  height: calc(100vh - 154px);
+  height: calc(100vh - 180px);
 `
 
 export const PaperStyled = styled(Paper)`
@@ -22,18 +22,20 @@ export const LogoutFormStyled = styled.div`
 
 export const TypographyStyled = styled(Typography)`
   flex-grow: 1;
-  font-size: 2rem;
-  padding-bottom: 20px;
+  font-size: 1.75rem;
+  padding-bottom: 15px;
 `
 
 export const SubTypographyStyled = styled(Typography)`
-  font-size: 1.3rem;
+  font-size: 1.125rem;
+  text-align: center;
   flex-grow: 1;
-  margin-bottom: 25px;
+  margin-bottom: 15px;
 `
 
 export const SubTypographyPaddingStyled = styled(Typography)`
-  font-size: 1rem;
+  font-size: 0.875rem;
   flex-grow: 1;
-  margin: 40px 0 10px;
+  text-align: center;
+  margin: 20px 0 10px;
 `

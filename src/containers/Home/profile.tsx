@@ -29,7 +29,7 @@ const Profile: React.FC<ProfileProps> = ({ user }) => {
 
       <React.Fragment>
         <ProfileTitleStyled>
-          {helloMessage}
+          {helloMessage} <br />
           {user.login}!
         </ProfileTitleStyled>
         {user.bio && (
