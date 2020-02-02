@@ -42,12 +42,12 @@ const withAuthentication = <Props extends object>(
       setUser({
         userName: userName,
         userId: userId,
-        authToken: user.credential
+        authToken: user.credential.accessToken
       })
 
       cookies.set('userName', userName)
       cookies.set('userId', userId)
-      cookies.set('userCredential', user.credential)
+      cookies.set('userCredential', user.credential.accessToken)
       cookies.set('authenticated', true)
 
       history.push(home)
@@ -55,6 +55,11 @@ const withAuthentication = <Props extends object>(
 
     const logOut = useCallback(() => {
       setAuthenticated(false)
+
+      cookies.remove('userName')
+      cookies.remove('userId')
+      cookies.remove('userCredential')
+      cookies.remove('authenticated')
 
       setUser({
         userName: '',
@@ -66,11 +71,6 @@ const withAuthentication = <Props extends object>(
         message: 'Logged out',
         variant: 'error'
       })
-
-      cookies.remove('userName')
-      cookies.remove('userId')
-      cookies.remove('userCredential')
-      cookies.remove('authenticated')
 
       history.push(login)
     }, [setSnackbarState, cookies])

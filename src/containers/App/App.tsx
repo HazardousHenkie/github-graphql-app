@@ -32,8 +32,8 @@ const App: React.FC = () => {
   const authorizationHeader =
     user && user.authToken && user.authToken.oauthAccessToken
       ? `Bearer ${user.authToken.oauthAccessToken}`
-      : user && user.authToken && user.authToken.accessToken
-      ? `Bearer ${user.authToken.accessToken}`
+      : user && user.authToken
+      ? `Bearer ${user.authToken}`
       : null
 
   const httpLink = createHttpLink({
@@ -52,6 +52,8 @@ const App: React.FC = () => {
       })
     }
     if (networkError) {
+      // cache is being persisted after logout so it throws a 401 error when logging in again.
+      // haven't found the solution yet
       return console.log(`[Network error]: ${networkError}`)
     }
   })
