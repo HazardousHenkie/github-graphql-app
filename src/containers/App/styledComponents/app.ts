@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-export interface StyledAppProps {
+export type StyledAppProps = {
   authenticated: boolean
 }
 

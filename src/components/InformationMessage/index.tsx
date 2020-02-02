@@ -4,7 +4,7 @@ import { Alert } from '@material-ui/lab'
 
 import { InformationMessageWrapper } from './styledComponents/infoMessage'
 
-interface InfoProps {
+type InfoProps = {
   infoMessage: string
 }
 

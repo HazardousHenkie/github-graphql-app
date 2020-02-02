@@ -8,7 +8,7 @@ import {
 
 import { scroll } from 'utils/strings'
 
-interface ScrollToProps {
+type ScrollToProps = {
   scrollTo: string
 }
 

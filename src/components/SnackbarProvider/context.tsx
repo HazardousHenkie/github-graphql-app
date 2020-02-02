@@ -1,6 +1,6 @@
 import React, { createContext } from 'react'
 
-interface SnackbarState {
+type SnackbarState = {
   snackbarState: {
     message: string
     variant: string

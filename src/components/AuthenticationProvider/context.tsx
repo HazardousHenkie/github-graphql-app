@@ -1,6 +1,6 @@
 import { createContext } from 'react'
 
-interface AuthenticatedState {
+type AuthenticatedState = {
   authenticated: boolean
   user: {
     userName: string

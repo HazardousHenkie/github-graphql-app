@@ -18,7 +18,7 @@ import { helloMessage } from 'utils/strings'
 import Background from 'components/BackgroundImage'
 import ScrollTo from 'components/ScrollTo'
 
-export interface ProfileProps {
+export type ProfileProps = {
   user: Record<string, string>
 }
 

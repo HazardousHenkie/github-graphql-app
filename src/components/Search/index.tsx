@@ -15,8 +15,8 @@ const SearchScheme = Yup.object().shape({
   searchfield: Yup.string().required('Required')
 })
 
-interface SearchProps {
-  setSearch: any
+type SearchProps = {
+  setSearch: React.Dispatch<React.SetStateAction<string>>
 }
 
 const Search: React.FC<SearchProps> = ({ setSearch }) => {

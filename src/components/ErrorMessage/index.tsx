@@ -4,7 +4,7 @@ import { Alert } from '@material-ui/lab'
 
 import { ErrorMessageWrapper } from './styledComponents/errorMessage'
 
-interface ErrorProps {
+type ErrorProps = {
   errorMessage: string
 }
 

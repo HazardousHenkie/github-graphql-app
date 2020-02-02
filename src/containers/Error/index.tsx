@@ -6,12 +6,12 @@ import { notFoundError } from 'utils/strings'
 
 import { ErrorPageDiv, StyledTypographyTitle } from './styledComponents/error'
 
-interface ErrorInterface {
+type ErrorType = {
   errorCode: number
   errorMessage: string
 }
 
-const ErrorPage: React.FC<ErrorInterface> = ({
+const ErrorPage: React.FC<ErrorType> = ({
   errorCode = 404,
   errorMessage = notFoundError
 }) => {
