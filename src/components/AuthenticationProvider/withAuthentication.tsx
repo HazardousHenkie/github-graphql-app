@@ -39,16 +39,16 @@ const withAuthentication = <Props extends object>(
           : ''
       const userId = user.user ? user.user.uid : ''
 
+      cookies.set('userName', userName)
+      cookies.set('userId', userId)
+      cookies.set('userCredential', user.credential.accessToken)
+      cookies.set('authenticated', true)
+
       setUser({
         userName: userName,
         userId: userId,
         authToken: user.credential.accessToken
       })
-
-      cookies.set('userName', userName)
-      cookies.set('userId', userId)
-      cookies.set('userCredential', user.credential.accessToken)
-      cookies.set('authenticated', true)
 
       history.push(home)
     }
