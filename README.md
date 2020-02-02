@@ -1,5 +1,13 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Explenation
+
+Learning GraphQL so used the github GraphQL API to make this app. You can view information about your repositories, star and unstar repositories and you can also search for other peoples repositories.
+
+## Online
+
+https://graphql-app-kyle.herokuapp.com/
+
 ## Available Scripts
 
 In the project directory, you can run:
