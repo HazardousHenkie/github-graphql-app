@@ -261,4 +261,4 @@ const RepositoryItem: React.FC<RepositoriesProps> = ({
   )
 }
 
-export default RepositoryItem
+export default React.memo(RepositoryItem)

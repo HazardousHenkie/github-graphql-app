@@ -6,4 +6,4 @@ const Background: React.FC = () => {
   return <BackgroundStyled></BackgroundStyled>
 }
 
-export default React.memo(Background)
+export default Background

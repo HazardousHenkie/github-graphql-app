@@ -16,4 +16,4 @@ const InfoMessage: React.FC<InfoProps> = ({ infoMessage }) => {
   )
 }
 
-export default React.memo(InfoMessage)
+export default InfoMessage

@@ -28,4 +28,4 @@ const ErrorPage: React.FC<ErrorInterface> = ({
   )
 }
 
-export default React.memo(ErrorPage)
+export default ErrorPage
