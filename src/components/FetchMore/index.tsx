@@ -4,7 +4,7 @@ import Loader from 'components/Loader'
 
 import { more } from 'utils/strings'
 
-interface FetchMoreProps {
+type FetchMoreProps = {
   loading: boolean
   hasNextPage: boolean
   variables: Record<string, string | number>

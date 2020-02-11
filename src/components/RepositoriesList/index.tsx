@@ -12,7 +12,7 @@ import FetchMore from '../FetchMore'
 
 import { repositoriesString } from 'utils/strings'
 
-interface RepositoriesProps {
+type RepositoriesProps = {
   loading: boolean
   repositories: {
     edges: [

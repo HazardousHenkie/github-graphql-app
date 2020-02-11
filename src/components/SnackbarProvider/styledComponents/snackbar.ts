@@ -7,7 +7,7 @@ import SnackbarContent from '@material-ui/core/SnackbarContent'
 
 import theme from 'styling/styledComponentsTheme'
 
-export interface StyledSnackbarContentProps {
+export type StyledSnackbarContentProps = {
   color: string
 }
 

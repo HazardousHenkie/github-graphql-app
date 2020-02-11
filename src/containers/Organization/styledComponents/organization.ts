@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-export interface OrganizationStyledProps {
+export type OrganizationStyledProps = {
   compact: boolean
 }
 

@@ -53,7 +53,7 @@ const App: React.FC = () => {
     }
     if (networkError) {
       // cache is being persisted after logout so it throws a 401 error when logging in again.
-      // haven't found the solution yet
+      // github is setting their own cookies and needs to be solved
       return console.log(`[Network error]: ${networkError}`)
     }
   })

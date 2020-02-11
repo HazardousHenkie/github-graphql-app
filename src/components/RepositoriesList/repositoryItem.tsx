@@ -33,7 +33,7 @@ import {
   RepositoriesLinkStyled
 } from './styledComponents/respositoryItem'
 
-interface RepositoriesProps {
+type RepositoriesProps = {
   id: number
   ownerLogin: string
   ownerUrl: string
