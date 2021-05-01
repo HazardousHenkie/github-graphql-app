@@ -1,6 +1,6 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Explenation
+## Explanation
 
 Learning GraphQL so used the github GraphQL API to make this app. You can view information about your repositories, star and unstar repositories and you can also search for other peoples repositories.
 
